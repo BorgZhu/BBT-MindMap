@@ -9,6 +9,11 @@ namespace BBT
 {
     abstract class ANode
     {
+        /// <summary>
+        /// ein kleiner Wrapper um die Events!
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="node"></param>
         protected void changedNodeEventHandler(object sender, ANode node)
         {
             if (this.changeNodeEvent != null)
