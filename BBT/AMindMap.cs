@@ -20,9 +20,9 @@ namespace BBT
                 removeNodeEvent(this, node);
         }
 
-        public virtual void removeNode(ANode node);
-        public virtual void addNode(ANode node);
-        public virtual delegate void addNodeEventHandler(object sender, ANode node);
+        public abstract void removeNode(ANode node);
+        public abstract void addNode(ANode node);
+        public delegate void addNodeEventHandler(object sender, ANode node);
         public delegate void removeNodeEventHandler(object sender, ANode node);
 
         public event addNodeEventHandler addNodeEvent;
