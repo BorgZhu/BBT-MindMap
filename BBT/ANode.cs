@@ -14,18 +14,18 @@ namespace BBT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="node"></param>
-        protected void changedNodeEventHandler(object sender, ANode node)
+        protected void changeNode(object sender, ANode node)
         {
             if (this.changeNodeEvent != null)
                 changeNodeEvent(this, node);
         }
 
-        public virtual Rect getRectangle();
-        public virtual void setRectangle(Rect rectangle);
-        public virtual ANode getParent();
-        public virtual List<ANode> getChildren();
-        public virtual string getText();
-        public virtual IStyle getStyle();
+        public abstract Rect getRectangle();
+        public abstract void setRectangle(Rect rectangle);
+        public abstract ANode getParent();
+        public abstract List<ANode> getChildren();
+        public abstract string getText();
+        public abstract IStyle getStyle();
         public delegate void changedNodeEventHandler(object sender, ANode node);
 
         public event changedNodeEventHandler changeNodeEvent;
