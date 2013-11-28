@@ -25,6 +25,9 @@ namespace BBT
         public delegate void addNodeEventHandler(object sender, ANode node);
         public delegate void removeNodeEventHandler(object sender, ANode node);
 
+        public abstract string toJson();
+        public abstract void fromJson(string Json);
+
         public event addNodeEventHandler addNodeEvent;
         public event removeNodeEventHandler removeNodeEvent;
     }
