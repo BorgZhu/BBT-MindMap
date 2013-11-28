@@ -12,6 +12,11 @@ namespace BBT
     class MindMap : AMindMap
     {
         private List<ANode> _nodes;
+        public MindMap()
+        {
+            this._nodes = new List<ANode>();
+        }
+
         public override void addNode(ANode element)
         {
             if (this._nodes.Contains(element))
