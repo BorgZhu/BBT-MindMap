@@ -1,0 +1,4 @@
+﻿- AMindMap Implementation: Bjarne
+- Fensterdesign: Bjørn
+- IForm, IStyle, ANode: Timo
+- Verbindung Fenster zu MindMap: Bjarne
