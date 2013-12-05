@@ -33,5 +33,7 @@ namespace BBT
                 throw new ENodeNotDeleted("Der Knoten konnte nicht gelöscht werden!");
             this.onRemoveNode(this, element);
         }
+
+
     }
 }

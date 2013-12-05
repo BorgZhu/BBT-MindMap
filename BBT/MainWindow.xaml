@@ -1,31 +1,103 @@
 ﻿<Window x:Class="BBT.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="467" Width="904" Loaded="Window_Loaded">
-    <Grid>
-        <StackPanel Margin="722,10,10,10" RenderTransformOrigin="2.5,-0.94">
-            <Button x:Name="AddObjectBtn" Content="Hinzufügen" Click="AddObjectBtn_Click"/>
-            <Button x:Name="RemoveObjectBtn" Content="Entfernen"/>
-            <Border BorderThickness="1" Height="20"/>
-            <Label Content="Text:" RenderTransformOrigin="0.376,-0.846"/>
-            <TextBox x:Name="TextAttrObject" Height="23" TextWrapping="Wrap" Text="Mindmap" RenderTransformOrigin="0.36,-1.304"/>
-            <Border BorderBrush="Black" BorderThickness="1" Height="22" RenderTransformOrigin="0.432,-0.5"/>
-            <Button x:Name="ColorChooserBtn" Content="Farbe" RenderTransformOrigin="0.48,5.909"/>
-            <ComboBox x:Name="FormAttrChooser"/>
-            <Border BorderBrush="Black" BorderThickness="1" Height="165" RenderTransformOrigin="0.5,0.5">
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-            </Border>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-        </StackPanel>
-        <Canvas x:Name="MindMapCanvas" HorizontalAlignment="Left" Margin="10,10,0,10" Width="707"/>
+        Title="Mindmap BBT Pro" Height="500" Width="800" KeyDown="KeyPressed" Loaded="Window_Loaded">
 
-    </Grid>
+
+    <DockPanel LastChildFill="True" x:Name="DockPanel" >
+        <Menu DockPanel.Dock="Top" x:Name="MenuBar">
+            <MenuItem Header="_Datei">
+                <MenuItem Header="_Speichern"/>
+                <MenuItem Header="_Laden"/>
+                <Separator />
+                <MenuItem Header="_Beenden" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Optionen"  >
+                <MenuItem Header="_Vollbild" Click="Fullscreen_Click"/>
+                <MenuItem Header="Werkzeugkasten _ausblenden" IsCheckable="True" Checked="ToolboxRemove_Click" Unchecked="ToolboxAdd_Click"  />
+                <Separator />
+                <MenuItem Header="Hintergrundfarbe ändern" Click="ChangeBackgroundColor_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox">
+            <Button Content="_Neuer Knoten"/>
+            <Button Content="Knoten _Entfernen"/>
+            <Separator />
+            <Label Content="Knoten Text:"/>
+            <TextBox Height="23" TextWrapping="Wrap" Text="Neuer Knoten"/>
+            <Label Content="Schriftgrösse: 12px" x:Name="FontSizeLabel"/>
+            <Slider x:Name="FontSlider" Value="12" Minimum="1" Maximum="72" TickFrequency="1" ValueChanged="Slider_ValueChanged"/>
+            <Button Content="_Farbe wählen" Click="ChooseColor_Click"/>
+            <CheckBox Content="Gefüllt Zeichnen"/>
+            <Label Content="Form wählen:"/>
+            <ComboBox SelectedIndex="0">
+                <ComboBoxItem Content="Kreis"/>
+                <ComboBoxItem Content="Viereck"/>
+                <ComboBoxItem Content="Dreieck"/>
+            </ComboBox>
+            <Label Content="Icon wählen:"/>
+            <ComboBox SelectedIndex="0" x:Name="IconComboBox">
+                <ComboBoxItem Content="Icon Wählen"/>
+                <ComboBoxItem Height="15" Width="15">
+                    <ComboBoxItem.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\ember.png"/>
+                    </ComboBoxItem.Background>
+                </ComboBoxItem>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\aim.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\blogger.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\aws.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\apple.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\tripit.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\smugmug.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\livejournal.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\pinboard.in.png"/>
+                    </Button.Background>
+                </Button>
+                <Button Height="15" Width="15">
+                    <Button.Background>
+                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\dzone.png"/>
+                    </Button.Background>
+                </Button>
+            </ComboBox>
+
+        </StackPanel>
+
+
+        <Canvas x:Name="MindMapCanvas" Background="White" />
+
+
+
+    </DockPanel>
+
 </Window>
