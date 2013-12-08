@@ -14,6 +14,6 @@ namespace BBT
         /// </summary>
         /// <returns>Farbe und True, wenn gefüllt</returns>
         Tuple<Color, bool> getColor();
-        void setColor(Tuple<Color, bool);
+        void setColor(Tuple<Color, bool> AColor);
     }
 }
