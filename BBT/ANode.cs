@@ -9,6 +9,19 @@ namespace BBT
 {
     abstract class ANode
     {
+
+        private bool _onUpdateing = false;
+
+        public void beginUpdate()
+        {
+            this._onUpdateing = true;
+        }
+
+        public void endUpdate()
+        {
+            this._onUpdateing = false;
+            this.changeNode(this, this);
+        }
         /// <summary>
         /// ein kleiner Wrapper um die Events!
         /// </summary>
@@ -16,7 +29,7 @@ namespace BBT
         /// <param name="node"></param>
         protected void changeNode(object sender, ANode node)
         {
-            if (this.changeNodeEvent != null)
+            if ((this.changeNodeEvent != null) && (!this._onUpdateing))
                 changeNodeEvent(this, node);
         }
 
