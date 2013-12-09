@@ -33,5 +33,15 @@ namespace BBT
                 throw new ENodeNotDeleted("Der Knoten konnte nicht gelöscht werden!");
             this.onRemoveNode(this, element);
         }
+
+        public override string toJson()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void fromJson(string Json)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
