@@ -55,6 +55,7 @@
     </ApplicationDefinition>
     <Compile Include="IForm.cs" />
     <Compile Include="Node.cs" />
+    <Compile Include="Rechteck.cs" />
     <Compile Include="Style.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
