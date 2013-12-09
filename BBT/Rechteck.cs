@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,14 +17,32 @@ namespace BBT
             Grid rechteck = new Grid();
             rechteck.Height = node.getRectangle().Height;
             rechteck.Width = node.getRectangle().Width;
+            Rectangle zeichnung = new Rectangle();
+            
+            zeichnung.RadiusX = rechteck.Height/10;
+            zeichnung.RadiusY = rechteck.Height/10;
+            SolidColorBrush farbe = new SolidColorBrush(Color.FromRgb(100, 100, 100)); //new SolidColorBrush(node.getStyle().getColor().Item1);
 
-            Rectangle rectum = new Rectangle();
-            rectum.Fill = new SolidColorBrush(Colors.Black);
-            rechteck.Children.Add(rectum);
-
-
-
+            if (node.getStyle().getColor().Item2)
+            {               
+                zeichnung.Fill = farbe;
+                zeichnung.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                zeichnung.StrokeThickness = 2;
+                rechteck.Children.Add(zeichnung);               
+            }
+            else
+            {
+                zeichnung.Stroke = farbe;
+                zeichnung.StrokeThickness = 2;
+                rechteck.Children.Add(zeichnung);
+            } 
+            
             return rechteck;
+        }
+
+        public override string ToString()
+        {
+            return "Rechteck";
         }
     }
 }
