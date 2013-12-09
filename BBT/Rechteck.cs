@@ -15,17 +15,17 @@ namespace BBT
     {
         Grid IForm.getStrokeFromNode(ANode node)
         {
-            Grid litit = new Grid();
-            litit.Height = node.getRectangle().Height;
-            litit.Width = node.getRectangle().Width;
+            Grid rechteck = new Grid();
+            rechteck.Height = node.getRectangle().Height;
+            rechteck.Width = node.getRectangle().Width;
 
             Rectangle rectum = new Rectangle();
             rectum.Fill = new SolidColorBrush(Colors.Black);
-            litit.Children.Add(rectum);
+            rechteck.Children.Add(rectum);
 
 
 
-            return litit;
+            return rechteck;
         }
     }
 }
