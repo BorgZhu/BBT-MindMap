@@ -22,6 +22,7 @@ namespace BBT
     /// </summary>
     public partial class MainWindow : Window
     {
+        ANode _currentMarkedNode = null;
         Dictionary<ANode, Grid> _nodeRegistry;
 
         public MainWindow()
@@ -41,7 +42,10 @@ namespace BBT
             this._nodeRegistry[node] = nodeElement;
             Canvas.SetLeft(nodeElement, node.getRectangle().Left);
             Canvas.SetTop(nodeElement, node.getRectangle().Top);
+            nodeElement.MouseLeftButtonDown += Node_MouseLeftButtonDown;
             this.MindMapCanvas.Children.Add(nodeElement);
+            if (this._currentMarkedNode == null)
+                this._currentMarkedNode = node;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -68,16 +72,6 @@ namespace BBT
             }
 
         }
-
-        private void AddObjectBtn_Click(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void AddNodeEvent_MindMap(object sender, ANode node)
-        {
-
-        }
-
 
         /// <summary>
         /// fügt Toobox hinzu
@@ -154,7 +148,7 @@ namespace BBT
         private void ChooseColor_Click(object sender, RoutedEventArgs e)
         {
             ColorDialog MyDialog = new ColorDialog();
-            MyDialog.AllowFullOpen = false;
+            MyDialog.AllowFullOpen = true;
             MyDialog.ShowDialog();
             //Color
             Color myColor = System.Windows.Media.Color.FromArgb(1, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
@@ -175,6 +169,22 @@ namespace BBT
 
             this.MindMapCanvas.Background = myBrush;
 
+        }
+
+        private void Node_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Grid)
+            {
+                Grid tempGrid = sender as Grid;
+                foreach (KeyValuePair<ANode, Grid> tempKeyValuePair in this._nodeRegistry)
+                {
+                    if (tempKeyValuePair.Value == tempGrid)
+                    {
+                        this._currentMarkedNode = tempKeyValuePair.Key;
+                        break;
+                    }
+                }
+            }
         }
     }
 }
