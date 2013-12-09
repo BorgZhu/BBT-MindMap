@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BBT
 {
@@ -47,6 +48,11 @@ namespace BBT
 
         public abstract void setForm(IForm form);
         public abstract IForm getForm();
+
+        public Grid getGrid()
+        {
+            return this.getForm().getStrokeFromNode(this);
+        }
 
         public abstract string toJson();
         public abstract void fromJson(string Json);
