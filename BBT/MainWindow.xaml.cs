@@ -22,13 +22,9 @@ namespace BBT
     /// </summary>
     public partial class MainWindow : Window
     {
-        private AMindMap _mindMap;
-        private Dictionary<ANode, Stroke> _nodeRegistry;
         public MainWindow()
         {
             InitializeComponent();
-            this._mindMap = new MindMap();
-            this._mindMap.addNodeEvent += AddNodeEvent_MindMap;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -46,7 +42,9 @@ namespace BBT
         }
 
 
-
+        /// <summary>
+        /// fügt Toobox hinzu
+        /// </summary>
         private void ToolboxAdd()
         {
             if (this.DockPanel.Children.Contains(Toolbox) == false)
@@ -54,6 +52,13 @@ namespace BBT
                 this.DockPanel.Children.Insert(1, Toolbox);
             }
         }
+        private void ToolboxAdd_Click(object sender, RoutedEventArgs e)
+        {
+            ToolboxAdd();
+        }
+        /// <summary>
+        /// entfernt die Toolbox
+        /// </summary>
         private void ToolboxRemove()
         {
             if (this.DockPanel.Children.Contains(Toolbox))
@@ -61,15 +66,13 @@ namespace BBT
                 this.DockPanel.Children.Remove(Toolbox);
             }
         }
-        private void ToolboxAdd_Click(object sender, RoutedEventArgs e)
-        {
-            ToolboxAdd();
-        }
         private void ToolboxRemove_Click(object sender, RoutedEventArgs e)
         {
             ToolboxRemove();
         }
-
+        /// <summary>
+        /// Beendet den Vollbildmodus
+        /// </summary>
         private void ExitFullscreen()
         {
             this.WindowStyle = System.Windows.WindowStyle.ThreeDBorderWindow;
@@ -77,6 +80,11 @@ namespace BBT
             this.DockPanel.Children.Insert(0, MenuBar);
             ToolboxAdd();
         }
+        /// <summary>
+        /// Vollbild des Canvas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Fullscreen_Click(object sender, RoutedEventArgs e)
         {
             if (this.WindowStyle != System.Windows.WindowStyle.None)
@@ -108,33 +116,27 @@ namespace BBT
 
         private void ChooseColor_Click(object sender, RoutedEventArgs e)
         {
-            //Farbe Wählen
             ColorDialog MyDialog = new ColorDialog();
-            // Keeps the user from selecting a custom color.
             MyDialog.AllowFullOpen = false;
-
-            // Update the text box color if the user clicks OK 
             MyDialog.ShowDialog();
-           
+            //Color
+            Color myColor = System.Windows.Media.Color.FromArgb(1, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
+            //Brush
+            SolidColorBrush myBrush = new SolidColorBrush();
+            myBrush.Color = System.Windows.Media.Color.FromArgb(255, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
+            //colorRect Farbe ändern
+            colorRect.Fill = myBrush;
         }
 
         private void ChangeBackgroundColor_Click(object sender, RoutedEventArgs e)
         {
-            //Farbe Wählen
             ColorDialog MyDialog = new ColorDialog();
-            // Keeps the user from selecting a custom color.
             MyDialog.AllowFullOpen = false;
-
-            // Update the text box color if the user clicks OK 
             MyDialog.ShowDialog();
-
-            Color myColor = System.Windows.Media.Color.FromArgb(1, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
-
             SolidColorBrush myBrush = new SolidColorBrush();
             myBrush.Color = System.Windows.Media.Color.FromArgb(255, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
 
             this.MindMapCanvas.Background = myBrush;
 
         }
-    }
 }

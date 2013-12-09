@@ -21,80 +21,42 @@
         </Menu>
 
         <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox">
-            <Button Content="_Neuer Knoten"/>
-            <Button Content="Knoten _Entfernen"/>
+            <Button x:Name="addNode" Content="_Neuer Knoten"/>
+            <Button x:Name="removeNOde" Content="Knoten _Entfernen"/>
             <Separator />
             <Label Content="Knoten Text:"/>
-            <TextBox Height="23" TextWrapping="Wrap" Text="Neuer Knoten"/>
+            <TextBox x:Name="nodeText" Height="23" TextWrapping="Wrap" Text="Neuer Knoten"/>
             <Label Content="Schriftgrösse: 12px" x:Name="FontSizeLabel"/>
             <Slider x:Name="FontSlider" Value="12" Minimum="1" Maximum="72" TickFrequency="1" ValueChanged="Slider_ValueChanged"/>
-            <Button Content="_Farbe wählen" Click="ChooseColor_Click"/>
-            <CheckBox Content="Gefüllt Zeichnen"/>
+            <Button x:Name="chooseColorButton" Content="_Farbe wählen" Click="ChooseColor_Click"/>
+            <StackPanel Orientation="Horizontal">
+                <Rectangle  Width="16" Height="16" x:Name="colorRect" Fill="Black"  />
+                <CheckBox x:Name="fillCheckBox" Content="Gefüllt Zeichnen"/>
+            </StackPanel>
+
+           
             <Label Content="Form wählen:"/>
-            <ComboBox SelectedIndex="0">
-                <ComboBoxItem Content="Kreis"/>
-                <ComboBoxItem Content="Viereck"/>
-                <ComboBoxItem Content="Dreieck"/>
+            <ComboBox x:Name="ChooseForm" SelectedIndex="0" DataContextChanged="ChooseForm_DataContextChanged">
+                <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
+                <ComboBoxItem x:Name="Circle" Content="Kreis"/>
+                <ComboBoxItem x:Name="Triangle" Content="Dreieck"/>
             </ComboBox>
             <Label Content="Icon wählen:"/>
             <ComboBox SelectedIndex="0" x:Name="IconComboBox">
-                <ComboBoxItem Content="Icon Wählen"/>
-                <ComboBoxItem Height="15" Width="15">
-                    <ComboBoxItem.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\ember.png"/>
-                    </ComboBoxItem.Background>
-                </ComboBoxItem>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\aim.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\blogger.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\aws.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\apple.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\tripit.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\smugmug.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\livejournal.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\pinboard.in.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Height="15" Width="15">
-                    <Button.Background>
-                        <ImageBrush ImageSource="C:\FH\3. Semester\AWP\Hausarbeit\Mindmap\Mindmap\pics\png\dzone.png"/>
-                    </Button.Background>
-                </Button>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
 
         </StackPanel>
 
 
-        <Canvas x:Name="MindMapCanvas" Background="White" />
+        <Canvas x:Name="MindMapCanvas" Background="White" MouseLeftButtonDown="MindMapCanvas_MouseLeftButtonDown" />
 
 
 
