@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace BBT
 {
     class Style : IStyle
     {
-        Tuple<System.Windows.Media.Color, bool> farbeFill;
+        Tuple<Color, bool> farbeFill;
 
-        Tuple<System.Windows.Media.Color, bool> IStyle.getColor()
+        Tuple<Color, bool> IStyle.getColor()
         {
             return farbeFill;
         }
 
-        void IStyle.setColor(Tuple<System.Windows.Media.Color, bool> color)
+        void IStyle.setColor(Tuple<Color, bool> color)
         {
             this.farbeFill = color;
         }
