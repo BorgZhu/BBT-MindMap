@@ -1,31 +1,65 @@
 ﻿<Window x:Class="BBT.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="467" Width="904" Loaded="Window_Loaded">
-    <Grid>
-        <StackPanel Margin="722,10,10,10" RenderTransformOrigin="2.5,-0.94">
-            <Button x:Name="AddObjectBtn" Content="Hinzufügen" Click="AddObjectBtn_Click"/>
-            <Button x:Name="RemoveObjectBtn" Content="Entfernen"/>
-            <Border BorderThickness="1" Height="20"/>
-            <Label Content="Text:" RenderTransformOrigin="0.376,-0.846"/>
-            <TextBox x:Name="TextAttrObject" Height="23" TextWrapping="Wrap" Text="Mindmap" RenderTransformOrigin="0.36,-1.304"/>
-            <Border BorderBrush="Black" BorderThickness="1" Height="22" RenderTransformOrigin="0.432,-0.5"/>
-            <Button x:Name="ColorChooserBtn" Content="Farbe" RenderTransformOrigin="0.48,5.909"/>
-            <ComboBox x:Name="FormAttrChooser"/>
-            <Border BorderBrush="Black" BorderThickness="1" Height="165" RenderTransformOrigin="0.5,0.5">
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-            </Border>
-            <Button Content="Button"/>
-            <Button Content="Button"/>
-        </StackPanel>
-        <Canvas x:Name="MindMapCanvas" HorizontalAlignment="Left" Margin="10,10,0,10" Width="707"/>
+        Title="Mindmap BBT Pro" Height="500" Width="800" KeyDown="KeyPressed" Loaded="Window_Loaded">
 
-    </Grid>
+
+    <DockPanel LastChildFill="True" x:Name="DockPanel" >
+        <Menu DockPanel.Dock="Top" x:Name="MenuBar">
+            <MenuItem Header="_Datei">
+                <MenuItem Header="_Speichern"/>
+                <MenuItem Header="_Laden"/>
+                <Separator />
+                <MenuItem Header="_Beenden" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Optionen"  >
+                <MenuItem Header="_Vollbild" Click="Fullscreen_Click"/>
+                <MenuItem Header="Werkzeugkasten _ausblenden" IsCheckable="True" Checked="ToolboxRemove_Click" Unchecked="ToolboxAdd_Click"  />
+                <Separator />
+                <MenuItem Header="Hintergrundfarbe ändern" Click="ChangeBackgroundColor_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox">
+            <Button x:Name="addNode" Content="_Neuer Knoten"/>
+            <Button x:Name="removeNOde" Content="Knoten _Entfernen"/>
+            <Separator />
+            <Label Content="Knoten Text:"/>
+            <TextBox x:Name="nodeText" Height="23" TextWrapping="Wrap" Text="Neuer Knoten"/>
+            <Label Content="Schriftgrösse: 12px" x:Name="FontSizeLabel"/>
+            <Slider x:Name="FontSlider" Value="12" Minimum="1" Maximum="72" TickFrequency="1" ValueChanged="Slider_ValueChanged"/>
+            <Button x:Name="chooseColorButton" Content="_Farbe wählen" Click="ChooseColor_Click"/>
+            <StackPanel Orientation="Horizontal">
+                <Rectangle  Width="16" Height="16" x:Name="colorRect" Fill="Black"  />
+                <CheckBox x:Name="fillCheckBox" Content="Gefüllt Zeichnen"/>
+            </StackPanel>
+
+           
+            <Label Content="Form wählen:"/>
+            <ComboBox x:Name="ChooseForm" SelectedIndex="0" DataContextChanged="ChooseForm_DataContextChanged">
+                <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
+                <ComboBoxItem x:Name="Circle" Content="Kreis"/>
+                <ComboBoxItem x:Name="Triangle" Content="Dreieck"/>
+            </ComboBox>
+            <Label Content="Icon wählen:"/>
+            <ComboBox SelectedIndex="0" x:Name="IconComboBox">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+        </StackPanel>
+
+
+        <Canvas x:Name="MindMapCanvas" Background="White" MouseLeftButtonDown="MindMapCanvas_MouseLeftButtonDown" />
+
+
+
+    </DockPanel>
+
 </Window>
