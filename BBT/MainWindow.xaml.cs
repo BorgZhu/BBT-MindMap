@@ -22,13 +22,50 @@ namespace BBT
     /// </summary>
     public partial class MainWindow : Window
     {
+        Dictionary<ANode, Grid> _nodeRegistry;
+
         public MainWindow()
         {
+            this._nodeRegistry = new Dictionary<ANode, Grid>();
             InitializeComponent();
+        }
+
+        private void handleNodeChanges(object sender, ANode node)
+        {
+            Grid nodeElement = node.getGrid();
+            if (this._nodeRegistry.ContainsKey(node))
+            {
+                if (this.MindMapCanvas.Children.Contains(this._nodeRegistry[node]))
+                    this.MindMapCanvas.Children.Remove(this._nodeRegistry[node]);
+            }
+            this._nodeRegistry[node] = nodeElement;
+            Canvas.SetLeft(nodeElement, node.getRectangle().Left);
+            Canvas.SetTop(nodeElement, node.getRectangle().Top);
+            this.MindMapCanvas.Children.Add(nodeElement);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ANode node = new Node();
+            node.changeNodeEvent += this.handleNodeChanges;
+            node.beginUpdate();
+            try
+            {
+                node.setForm(new Rechteck());
+                node.setRectangle(new Rect(new Point(100, 100), new Point(200, 200)));
+                
+                IStyle nodeStyle = new Style();
+                nodeStyle.setColor(Tuple.Create((this.colorRect.Fill as SolidColorBrush).Color, (bool)this.fillCheckBox.IsChecked));
+                node.setStyle(nodeStyle);
+
+                node.setParent(null);
+
+                node.setText(this.nodeText.Text);
+            }
+            finally
+            {
+                node.endUpdate();
+            }
 
         }
 
