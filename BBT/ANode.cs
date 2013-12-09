@@ -44,7 +44,15 @@ namespace BBT
         public abstract void setText(string text);
 
         public abstract IStyle getStyle();
-        public abstract void setStyle(IStyle style);
+        public virtual void setStyle(AStyle style)
+        {
+            style.changeStyleEvent += this.onChangedStyle;
+        }
+        
+        protected virtual void onChangedStyle(object sender, IStyle node)
+        {
+            this.changeNode(sender, this);
+        }
 
         public abstract void setForm(IForm form);
         public abstract IForm getForm();

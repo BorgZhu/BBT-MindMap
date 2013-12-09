@@ -58,10 +58,10 @@ namespace BBT
                 return null;
         }
 
-        public override void setStyle(IStyle style)
+        public override void setStyle(AStyle style)
         {
             this.stil = style;
-            changeNode(this, this);
+            base.setStyle(style);
         }
 
         public override void setForm(IForm form)

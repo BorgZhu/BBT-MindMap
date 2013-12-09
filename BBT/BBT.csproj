@@ -58,7 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Dreieck.cs" />
+    <Compile Include="AStyle.cs" />
     <Compile Include="IForm.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Rechteck.cs" />
