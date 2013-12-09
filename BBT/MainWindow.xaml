@@ -36,7 +36,7 @@
 
            
             <Label Content="Form wählen:"/>
-            <ComboBox x:Name="ChooseForm" SelectedIndex="0" DataContextChanged="ChooseForm_DataContextChanged">
+            <ComboBox x:Name="ChooseForm" SelectedIndex="0">
                 <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
                 <ComboBoxItem x:Name="Circle" Content="Kreis"/>
                 <ComboBoxItem x:Name="Triangle" Content="Dreieck"/>
@@ -56,7 +56,7 @@
         </StackPanel>
 
 
-        <Canvas x:Name="MindMapCanvas" Background="White" MouseLeftButtonDown="MindMapCanvas_MouseLeftButtonDown" />
+        <Canvas x:Name="MindMapCanvas" Background="White"/>
 
 
 
