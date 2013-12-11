@@ -27,11 +27,14 @@ namespace BBT
         public abstract void setICon(BitmapImage icon);
         public abstract BitmapImage getIcon();
 
-        public abstract void isActivated(bool active);
+        public abstract void setActivated(bool active);
 
 
         public abstract void setFontsize(int fontSize);
 
         public abstract double getFontsize();
+
+
+        public abstract bool getActivated();
     }
 }
