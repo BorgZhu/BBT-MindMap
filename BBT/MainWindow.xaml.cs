@@ -59,7 +59,9 @@ namespace BBT
                 node.setRectangle(new Rect(new Point(100, 100), new Point(300, 200)));
                 
                 AStyle nodeStyle = new Style();
-                nodeStyle.setColor(Tuple.Create((this.colorRect.Fill as SolidColorBrush).Color, /*(bool)this.fillCheckBox.IsChecked*/true));
+
+                nodeStyle.setColor(Tuple.Create((this.colorRect.Fill as SolidColorBrush).Color, /*(bool)this.fillCheckBox.IsChecked*/false));
+                nodeStyle.setActivated(true);
                 node.setStyle(nodeStyle);
 
                 node.setParent(null);
