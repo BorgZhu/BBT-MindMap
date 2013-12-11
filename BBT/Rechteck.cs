@@ -21,21 +21,30 @@ namespace BBT
             
             zeichnung.RadiusX = rechteck.Height/10;
             zeichnung.RadiusY = rechteck.Height/10;
-            SolidColorBrush farbe = new SolidColorBrush(Color.FromRgb(100, 100, 100)); //new SolidColorBrush(node.getStyle().getColor().Item1);
+            SolidColorBrush farbe = new SolidColorBrush(node.getStyle().getColor().Item1);
 
             if (node.getStyle().getColor().Item2)
             {               
                 zeichnung.Fill = farbe;
                 zeichnung.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                zeichnung.StrokeThickness = 2;
-                rechteck.Children.Add(zeichnung);               
+                               
             }
             else
             {
                 zeichnung.Stroke = farbe;
-                zeichnung.StrokeThickness = 2;
-                rechteck.Children.Add(zeichnung);
-            } 
+                
+            }
+            zeichnung.StrokeThickness = 2;
+            rechteck.Children.Add(zeichnung);
+
+            StackPanel textPanel = new StackPanel();
+            textPanel.Orientation=Orientation.Horizontal;
+            textPanel.HorizontalAlignment= System.Windows.HorizontalAlignment.Center;
+            textPanel.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            TextBlock text = new TextBlock();
+            text.Text = node.getText();
+            textPanel.Children.Add(text);
+            rechteck.Children.Add(textPanel);
             
             return rechteck;
         }
