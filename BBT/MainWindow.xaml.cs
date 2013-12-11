@@ -388,5 +388,21 @@ namespace BBT
             }
         }
 
+        private bool dragging = false;
+
+        private void MindMapCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is IInputElement)
+            {
+                if (dragging)
+                {
+                    Rect tempRect = this._currentMarkedNode.getRectangle();
+                    tempRect.X = e.GetPosition((IInputElement)sender).X;
+                    tempRect.Y = e.GetPosition((IInputElement)sender).Y;
+                    this._currentMarkedNode.setRectangle(tempRect);
+                }
+            }
+        }
+
     }
 }
