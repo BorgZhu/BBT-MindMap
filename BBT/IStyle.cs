@@ -17,8 +17,12 @@ namespace BBT
 
         Tuple<Color, bool> getColor();
         void setColor(Tuple<Color, bool> color);
+
         void setICon(System.Drawing.Bitmap icon);
         System.Drawing.Bitmap getIcon();
+
+        void isActivated(bool active);
+        
 
     }
 }
