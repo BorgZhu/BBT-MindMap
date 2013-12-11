@@ -5,13 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace BBT
 {
     class Style : AStyle
     {
         Tuple<Color, bool> farbeFill;
-        System.Drawing.Bitmap icon;
+        BitmapImage icon;
+        bool isActive = false;
+        int fontSize = 12;
 
         public override Tuple<Color, bool>getColor()
         {
@@ -24,19 +27,29 @@ namespace BBT
             changeStyle(this, this);
         }
 
-        public override System.Drawing.Bitmap getIcon()
+        public override BitmapImage getIcon()
         {
-            return this.icon;
+            return icon;
         }
 
-        public override void setICon(System.Drawing.Bitmap icon)
+        public override void setICon(BitmapImage icon)
         {
             this.icon = icon;
         }
 
         public override void isActivated(bool active)
         {
-            throw new NotImplementedException();
+            this.isActive=active;
+        }
+
+        public override void setFontsize(int fontSize)
+        {
+            this.fontSize = fontSize;
+        }
+
+        public override double getFontsize()
+        {
+            return fontSize;
         }
     }
   

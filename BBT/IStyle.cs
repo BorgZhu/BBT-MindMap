@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace BBT
 {
@@ -18,8 +19,11 @@ namespace BBT
         Tuple<Color, bool> getColor();
         void setColor(Tuple<Color, bool> color);
 
-        void setICon(System.Drawing.Bitmap icon);
-        System.Drawing.Bitmap getIcon();
+        void setICon(BitmapImage icon);
+        BitmapImage getIcon();
+
+        void setFontsize(int fontSize);
+        double getFontsize();
 
         void isActivated(bool active);
         

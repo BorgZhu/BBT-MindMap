@@ -15,6 +15,7 @@ namespace BBT
         Grid IForm.getStrokeFromNode(ANode node)
         {
             Grid rechteck = new Grid();
+            rechteck.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             rechteck.Height = node.getRectangle().Height;
             rechteck.Width = node.getRectangle().Width;
             Rectangle zeichnung = new Rectangle();
@@ -26,14 +27,14 @@ namespace BBT
             if (node.getStyle().getColor().Item2)
             {               
                 zeichnung.Fill = farbe;
-                zeichnung.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                               
+                zeichnung.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));                              
             }
             else
             {
                 zeichnung.Stroke = farbe;
                 
             }
+
             zeichnung.StrokeThickness = 2;
             rechteck.Children.Add(zeichnung);
 
@@ -41,7 +42,23 @@ namespace BBT
             textPanel.Orientation=Orientation.Horizontal;
             textPanel.HorizontalAlignment= System.Windows.HorizontalAlignment.Center;
             textPanel.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+
+
+            if (node.getStyle().getIcon() != null)
+            {
+                Image bild = new Image();
+                bild.Source = node.getStyle().getIcon();
+                bild.Width = node.getRectangle().Width/4;
+                bild.Height = node.getRectangle().Width / 4;
+                bild.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                bild.VerticalAlignment=System.Windows.VerticalAlignment.Center;
+                textPanel.Children.Add(bild);
+            }
+
             TextBlock text = new TextBlock();
+            text.FontSize = node.getStyle().getFontsize();
+            text.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            text.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             text.Text = node.getText();
             textPanel.Children.Add(text);
             rechteck.Children.Add(textPanel);
