@@ -35,6 +35,16 @@ namespace BBT
                 ellipse.Children.Add(zeichnung);
             }
 
+            StackPanel textPanel = new StackPanel();
+            textPanel.Orientation = Orientation.Horizontal;
+            textPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            textPanel.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            TextBlock text = new TextBlock();
+            text.Text = node.getText();
+                  
+            textPanel.Children.Add(text);
+            ellipse.Children.Add(textPanel);
+
             return ellipse;
         }
 
