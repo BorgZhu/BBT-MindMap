@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace BBT
 {
-    abstract class ANode
+    public abstract class ANode
     {
 
         private bool _onUpdateing = false;

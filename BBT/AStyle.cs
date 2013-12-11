@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace BBT
 {
-    abstract class AStyle : IStyle
+    public abstract class AStyle : IStyle
     {
 
         protected void changeStyle(object sender, IStyle node)

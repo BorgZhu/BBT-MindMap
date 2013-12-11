@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace BBT
 {
-    interface IStyle
+    public interface IStyle
     {
         /// <summary>
         /// 
