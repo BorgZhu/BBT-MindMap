@@ -7,18 +7,19 @@ using System.Windows.Media;
 
 namespace BBT
 {
-    class Style : IStyle
+    class Style : AStyle
     {
         Tuple<Color, bool> farbeFill;
 
-        Tuple<Color, bool> IStyle.getColor()
+        public override Tuple<Color, bool>getColor()
         {
             return farbeFill;
         }
 
-        void IStyle.setColor(Tuple<Color, bool> color)
+        public override void setColor(Tuple<Color, bool> color)
         {
             this.farbeFill = color;
+            changeStyle(this, this);
         }
     }
   

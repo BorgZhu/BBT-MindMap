@@ -55,11 +55,11 @@ namespace BBT
             node.beginUpdate();
             try
             {
-                node.setForm(new Rechteck());
-                node.setRectangle(new Rect(new Point(100, 100), new Point(200, 200)));
+                node.setForm(new Ellipse());
+                node.setRectangle(new Rect(new Point(100, 100), new Point(300, 200)));
                 
-                IStyle nodeStyle = new Style();
-                nodeStyle.setColor(Tuple.Create((this.colorRect.Fill as SolidColorBrush).Color, (bool)this.fillCheckBox.IsChecked));
+                AStyle nodeStyle = new Style();
+                nodeStyle.setColor(Tuple.Create((this.colorRect.Fill as SolidColorBrush).Color, /*(bool)this.fillCheckBox.IsChecked*/true));
                 node.setStyle(nodeStyle);
 
                 node.setParent(null);

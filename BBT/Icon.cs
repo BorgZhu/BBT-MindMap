@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Ink;
-using System.Windows.Media;
-using System.Windows.Shapes;
+using System.Windows.Controls;
 
 namespace BBT
 {
-
-    class Dreieck : IForm
+    class Icon : IForm
     {
-        System.Windows.Controls.Grid IForm.getStrokeFromNode(ANode node)
+
+        public Grid getStrokeFromNode(ANode node)
         {
             throw new NotImplementedException();
         }
