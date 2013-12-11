@@ -12,7 +12,14 @@ namespace BBT
 
         public Grid getStrokeFromNode(ANode node)
         {
-            throw new NotImplementedException();
+            Grid rechteck = new Grid();
+            rechteck.Height = node.getRectangle().Height;
+            rechteck.Width = node.getRectangle().Width;
+
+
+
+
+            return rechteck;
         }
     }
 }
