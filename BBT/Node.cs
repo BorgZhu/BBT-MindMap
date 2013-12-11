@@ -15,9 +15,7 @@ namespace BBT
         String text="";
         IStyle stil;
         IForm shape = new Rechteck();
-        Stroke zeichnung;
 
-        
         public override Rect getRectangle()
         {
             if (grundform != null)
@@ -77,12 +75,6 @@ namespace BBT
                 return null;
         }
 
-        private void draw()
-        {
-            
-            
-        }
-
         public override string toJson()
         {
             throw new NotImplementedException();
@@ -90,11 +82,6 @@ namespace BBT
 
 
         public override void fromJson(string Json)
-        {
-            throw new NotImplementedException();
-        }
-
-        public System.Windows.Ink.StrokeCollection getStrokeFromNode(ANode node)
         {
             throw new NotImplementedException();
         }
