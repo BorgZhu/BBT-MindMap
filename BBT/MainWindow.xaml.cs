@@ -32,7 +32,14 @@ namespace BBT
         {
             this._nodeRegistry = new Dictionary<ANode, Grid>();
             this._mindmap = new MindMap();
+            this._mindmap.removeNodeEvent += removeNodeEventHandler;
             InitializeComponent();
+        }
+
+        public void removeNodeEventHandler(object sender, ANode node)
+        {
+            this.MindMapCanvas.Children.Remove(this._nodeRegistry[node]);
+            this._nodeRegistry.Remove(node);
         }
 
         private void handleNodeChanges(object sender, ANode node)
@@ -44,14 +51,17 @@ namespace BBT
                     this.MindMapCanvas.Children.Remove(this._nodeRegistry[node]);
             }
             this._nodeRegistry[node] = nodeElement.Item2;
-            //Point realPosition = new Point(Canvas.GetLeft(this._nodeRegistry[this._mindmap.getMainNode()]), Canvas.GetTop(this._nodeRegistry[this._mindmap.getMainNode()]));
-            
-            //Canvas.SetLeft(nodeElement.Item2, AMindMap.transformCoords(node.getRectangle().TopLeft, realPosition).X);
-            //Canvas.SetTop(nodeElement.Item2, AMindMap.transformCoords(node.getRectangle().TopLeft, realPosition).Y);
-            Canvas.SetZIndex(nodeElement.Item1, 0);
+
+            if (nodeElement.Item1 != null)
+            {
+                Canvas.SetZIndex(nodeElement.Item1, 0);
+                this.MindMapCanvas.Children.Add(nodeElement.Item1);
+            }
+
+            Canvas.SetLeft(nodeElement.Item2, node.getRectangle().Left);
+            Canvas.SetTop(nodeElement.Item2, node.getRectangle().Top);
             Canvas.SetZIndex(nodeElement.Item2, 1);
             nodeElement.Item2.MouseLeftButtonDown += Node_MouseLeftButtonDown;
-            this.MindMapCanvas.Children.Add(nodeElement.Item1);
             this.MindMapCanvas.Children.Add(nodeElement.Item2);
             if (this._currentMarkedNode == null)
                 this._currentMarkedNode = node;
