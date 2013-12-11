@@ -44,9 +44,10 @@ namespace BBT
                     this.MindMapCanvas.Children.Remove(this._nodeRegistry[node]);
             }
             this._nodeRegistry[node] = nodeElement.Item2;
-            Point realPosition = new Point(Canvas.GetLeft(this._nodeRegistry[this._mindmap.getMainNode()]), Canvas.GetTop(this._nodeRegistry[this._mindmap.getMainNode()]));
-            Canvas.SetLeft(nodeElement.Item2, AMindMap.transformCoords(node.getRectangle().TopLeft, realPosition).X);
-            Canvas.SetTop(nodeElement.Item2, AMindMap.transformCoords(node.getRectangle().TopLeft, realPosition).Y);
+            //Point realPosition = new Point(Canvas.GetLeft(this._nodeRegistry[this._mindmap.getMainNode()]), Canvas.GetTop(this._nodeRegistry[this._mindmap.getMainNode()]));
+            
+            //Canvas.SetLeft(nodeElement.Item2, AMindMap.transformCoords(node.getRectangle().TopLeft, realPosition).X);
+            //Canvas.SetTop(nodeElement.Item2, AMindMap.transformCoords(node.getRectangle().TopLeft, realPosition).Y);
             Canvas.SetZIndex(nodeElement.Item1, 0);
             Canvas.SetZIndex(nodeElement.Item2, 1);
             nodeElement.Item2.MouseLeftButtonDown += Node_MouseLeftButtonDown;
@@ -145,12 +146,20 @@ namespace BBT
                 ToolboxRemove();
             }
         }
-
+        /// <summary>
+        /// Wenn der Wert vom slider sich ändert
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             this.FontSizeLabel.Content = "Schriftgrösse: " + System.Convert.ToInt32(this.FontSlider.Value).ToString() + "px";
         }
-
+        /// <summary>
+        /// Programm Beenden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -195,6 +204,11 @@ namespace BBT
 
         }
 
+        /// <summary>
+        /// Hintergrundfarbe vom Canvas wird geändert
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeBackgroundColor_Click(object sender, RoutedEventArgs e)
         {
             ColorDialog MyDialog = new ColorDialog();
