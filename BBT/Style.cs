@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace BBT
 {
-    class Style : AStyle
+    public class Style : AStyle
     {
         Tuple<Color, bool> farbeFill;
         BitmapImage icon;
@@ -23,8 +23,11 @@ namespace BBT
 
         public override void setColor(Tuple<Color, bool> color)
         {
-            this.farbeFill = color;
-            changeStyle(this, this);
+            if (this.farbeFill != color)
+            {
+                this.farbeFill = color;
+                changeStyle(this, this);
+            }
         }
 
         public override BitmapImage getIcon()
@@ -39,12 +42,20 @@ namespace BBT
 
         public override void setActivated(bool active)
         {
-            this.isActive=active;
+            if (this.isActive != active)
+            {
+                this.isActive = active;
+                changeStyle(this, this);
+            }
         }
 
         public override void setFontsize(int fontSize)
         {
-            this.fontSize = fontSize;
+            if (this.fontSize != fontSize)
+            {
+                this.fontSize = fontSize;
+                changeStyle(this, this);
+            }
         }
 
         public override double getFontsize()
