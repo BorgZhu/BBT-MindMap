@@ -18,10 +18,10 @@ namespace BBT
 
         public override Rect getRectangle()
         {
-            if (grundform != null)
+            //if (grundform != null)
                 return grundform;
-            else
-                return new Rect(0, 0, 0, 0);
+            //else
+            //    return new Rect(0, 0, 0, 0);
         }
         public override void setRectangle(Rect rectangle)
         {

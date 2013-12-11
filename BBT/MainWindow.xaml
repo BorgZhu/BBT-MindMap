@@ -20,26 +20,25 @@
             </MenuItem>
         </Menu>
 
-        <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox">
-            <Button x:Name="addNode" Content="_Neuer Knoten"/>
+        <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox" Panel.ZIndex="999999">
+            <Button x:Name="addNode" Content="_Neuer Knoten" Click="addNode_Click"/>
             <Button x:Name="removeNOde" Content="Knoten _Entfernen"/>
             <Separator />
             <Label Content="Knoten Text:"/>
-            <TextBox x:Name="nodeText" Height="23" TextWrapping="Wrap" Text="Neuer Knoten"/>
+            <TextBox x:Name="nodeText" Height="23" TextWrapping="Wrap" Text="Neuer Knoten" TextChanged="nodeText_TextChanged" />
             <Label Content="Schriftgrösse: 12px" x:Name="FontSizeLabel"/>
             <Slider x:Name="FontSlider" Value="12" Minimum="1" Maximum="72" TickFrequency="1" ValueChanged="Slider_ValueChanged"/>
             <Button x:Name="chooseColorButton" Content="_Farbe wählen" Click="ChooseColor_Click"/>
             <StackPanel Orientation="Horizontal">
                 <Rectangle  Width="16" Height="16" x:Name="colorRect" Fill="Black"  />
-                <CheckBox x:Name="fillCheckBox" Content="Gefüllt Zeichnen"/>
+                <CheckBox x:Name="fillCheckBox" Content="Gefüllt Zeichnen" Checked="fillCheckBox_Checked" Unchecked="fillCheckBox_Unchecked"/>
             </StackPanel>
 
            
             <Label Content="Form wählen:"/>
-            <ComboBox x:Name="ChooseForm" SelectedIndex="0">
+            <ComboBox x:Name="ChooseForm" SelectedIndex="0" SelectionChanged="ChooseForm_SelectionChanged">
                 <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
                 <ComboBoxItem x:Name="Circle" Content="Kreis"/>
-                <ComboBoxItem x:Name="Triangle" Content="Dreieck"/>
             </ComboBox>
             <Label Content="Icon wählen:"/>
             <ComboBox SelectedIndex="0" x:Name="IconComboBox">
@@ -56,7 +55,7 @@
         </StackPanel>
 
 
-        <Canvas x:Name="MindMapCanvas" Background="White"/>
+        <Canvas x:Name="MindMapCanvas" Background="White" />
 
 
 

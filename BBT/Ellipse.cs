@@ -19,7 +19,7 @@ namespace BBT
             Rectangle zeichnung = new Rectangle();
             zeichnung.RadiusX = ellipse.Width;
             zeichnung.RadiusY = ellipse.Height/2;
-            SolidColorBrush farbe = new SolidColorBrush(Color.FromRgb(100, 100, 100)); //new SolidColorBrush(node.getStyle().getColor().Item1);
+            SolidColorBrush farbe = new SolidColorBrush(node.getStyle().getColor().Item1);
 
             if (node.getStyle().getColor().Item2)
             {
