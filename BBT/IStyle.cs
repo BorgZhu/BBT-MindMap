@@ -25,7 +25,9 @@ namespace BBT
         void setFontsize(int fontSize);
         double getFontsize();
 
-        void isActivated(bool active);
+        void setActivated(bool active);
+
+        bool getActivated();
         
 
     }

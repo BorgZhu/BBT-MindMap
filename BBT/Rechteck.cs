@@ -15,11 +15,11 @@ namespace BBT
         Grid IForm.getStrokeFromNode(ANode node)
         {
             Grid rechteck = new Grid();
-            rechteck.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+            rechteck.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
             rechteck.Height = node.getRectangle().Height;
             rechteck.Width = node.getRectangle().Width;
             Rectangle zeichnung = new Rectangle();
-            
+
             zeichnung.RadiusX = rechteck.Height/10;
             zeichnung.RadiusY = rechteck.Height/10;
             SolidColorBrush farbe = new SolidColorBrush(node.getStyle().getColor().Item1);
@@ -34,8 +34,11 @@ namespace BBT
                 zeichnung.Stroke = farbe;
                 
             }
+            if (node.getStyle().getActivated())
+                zeichnung.StrokeThickness = 4;
+            else
+                zeichnung.StrokeThickness = 2;
 
-            zeichnung.StrokeThickness = 2;
             rechteck.Children.Add(zeichnung);
 
             StackPanel textPanel = new StackPanel();

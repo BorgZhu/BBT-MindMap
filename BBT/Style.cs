@@ -37,7 +37,7 @@ namespace BBT
             this.icon = icon;
         }
 
-        public override void isActivated(bool active)
+        public override void setActivated(bool active)
         {
             this.isActive=active;
         }
@@ -50,6 +50,11 @@ namespace BBT
         public override double getFontsize()
         {
             return fontSize;
+        }
+
+        public override bool getActivated()
+        {
+            return this.isActive;
         }
     }
   

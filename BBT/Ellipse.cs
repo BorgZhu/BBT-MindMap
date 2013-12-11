@@ -14,7 +14,7 @@ namespace BBT
         Grid IForm.getStrokeFromNode(ANode node)
         {
             Grid ellipse = new Grid();
-            ellipse.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+            ellipse.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
             ellipse.Height = node.getRectangle().Height;
             ellipse.Width = node.getRectangle().Width;
             Rectangle zeichnung = new Rectangle();
@@ -35,6 +35,11 @@ namespace BBT
                 zeichnung.StrokeThickness = 2;
                 ellipse.Children.Add(zeichnung);
             }
+
+            if (node.getStyle().getActivated())
+                zeichnung.StrokeThickness = 4;
+            else
+                zeichnung.StrokeThickness = 2;
 
             StackPanel textPanel = new StackPanel();
             textPanel.Orientation = Orientation.Horizontal;
