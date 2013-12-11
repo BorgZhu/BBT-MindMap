@@ -38,16 +38,15 @@ namespace BBT
             line.StrokeThickness = 1;
             if (element.getParent() == null)
             {
-                line.X1 = 0;
-                line.Y1 = 0;
+                line = null;
             }
             else
             {
                 line.X1 = element.getParent().getRectangle().Left + ((element.getParent().getRectangle().Right - element.getParent().getRectangle().Left) * 0.5);
                 line.Y1 = element.getParent().getRectangle().Top + ((element.getParent().getRectangle().Bottom - element.getParent().getRectangle().Top) * 0.5);
+                line.X2 = element.getRectangle().Left + ((element.getRectangle().Right - element.getRectangle().Left) * 0.5);
+                line.Y2 = element.getRectangle().Top + ((element.getRectangle().Bottom - element.getRectangle().Top) * 0.5);
             }
-            line.X2 = element.getRectangle().Left + ((element.getRectangle().Right - element.getRectangle().Left) * 0.5);
-            line.Y2 = element.getRectangle().Top + ((element.getRectangle().Bottom - element.getRectangle().Top) * 0.5);
             return Tuple.Create(line, grid);
         }
 
