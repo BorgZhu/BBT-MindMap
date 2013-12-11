@@ -25,7 +25,12 @@ namespace BBT
 
         public event changedStyleEventHandler changeStyleEvent;
 
-        public abstract void setIcon(System.Drawing.Bitmap);
+        public abstract void setICon(System.Drawing.Bitmap icon);
         public abstract System.Drawing.Bitmap getIcon();
+
+        public abstract void isActivated(bool active);
+
+
+       
     }
 }
