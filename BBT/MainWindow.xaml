@@ -55,7 +55,7 @@
         </StackPanel>
 
 
-        <Canvas x:Name="MindMapCanvas" Background="White" />
+        <Canvas x:Name="MindMapCanvas" Background="White" MouseMove="MindMapCanvas_MouseMove" />
 
 
 

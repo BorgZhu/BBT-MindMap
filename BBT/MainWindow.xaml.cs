@@ -51,14 +51,15 @@ namespace BBT
                     this.MindMapCanvas.Children.Remove(this._nodeRegistry[node]);
             }
             this._nodeRegistry[node] = nodeElement.Item2;
-            
-            Canvas.SetLeft(nodeElement.Item2, node.getRectangle().Left);
-            Canvas.SetTop(nodeElement.Item2, node.getRectangle().Top);
+
             if (nodeElement.Item1 != null)
             {
                 Canvas.SetZIndex(nodeElement.Item1, 0);
                 this.MindMapCanvas.Children.Add(nodeElement.Item1);
             }
+
+            Canvas.SetLeft(nodeElement.Item2, node.getRectangle().Left);
+            Canvas.SetTop(nodeElement.Item2, node.getRectangle().Top);
             Canvas.SetZIndex(nodeElement.Item2, 1);
             nodeElement.Item2.MouseLeftButtonDown += Node_MouseLeftButtonDown;
             this.MindMapCanvas.Children.Add(nodeElement.Item2);
@@ -260,6 +261,21 @@ namespace BBT
                         */
                         break;
                     }
+                }
+            }
+        }
+        private bool dragging = false;
+
+        private void MindMapCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is IInputElement)
+            {
+                if (dragging)
+                {
+                    Rect tempRect = this._currentMarkedNode.getRectangle();
+                    tempRect.X = e.GetPosition((IInputElement)sender).X;
+                    tempRect.Y = e.GetPosition((IInputElement)sender).Y;
+                    this._currentMarkedNode.setRectangle(tempRect);
                 }
             }
         }
