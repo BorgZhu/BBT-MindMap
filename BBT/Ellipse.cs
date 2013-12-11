@@ -14,12 +14,13 @@ namespace BBT
         Grid IForm.getStrokeFromNode(ANode node)
         {
             Grid ellipse = new Grid();
+            ellipse.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             ellipse.Height = node.getRectangle().Height;
             ellipse.Width = node.getRectangle().Width;
             Rectangle zeichnung = new Rectangle();
             zeichnung.RadiusX = ellipse.Width;
             zeichnung.RadiusY = ellipse.Height/2;
-            SolidColorBrush farbe = new SolidColorBrush(Color.FromRgb(100, 100, 100)); //new SolidColorBrush(node.getStyle().getColor().Item1);
+            SolidColorBrush farbe = new SolidColorBrush(node.getStyle().getColor().Item1);
 
             if (node.getStyle().getColor().Item2)
             {
@@ -39,7 +40,24 @@ namespace BBT
             textPanel.Orientation = Orientation.Horizontal;
             textPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             textPanel.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+
+            if (node.getStyle().getIcon() != null)
+            {
+                Image bild = new Image();
+                bild.Source = node.getStyle().getIcon();
+                bild.Width = node.getRectangle().Width / 4;
+                bild.Height = node.getRectangle().Width / 4;
+                bild.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                bild.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                textPanel.Children.Add(bild);
+            }
+
             TextBlock text = new TextBlock();
+            text.FontSize = node.getStyle().getFontsize();
+            text.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            text.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+
+           
             text.Text = node.getText();
                   
             textPanel.Children.Add(text);
