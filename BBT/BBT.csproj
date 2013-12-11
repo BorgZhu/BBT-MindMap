@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AStyle.cs" />
+    <Compile Include="Ellipse.cs" />
     <Compile Include="IForm.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Rechteck.cs" />
