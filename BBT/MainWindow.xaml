@@ -22,7 +22,7 @@
 
         <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox" Panel.ZIndex="999999">
             <Button x:Name="addNode" Content="_Neuer Knoten" Click="addNode_Click"/>
-            <Button x:Name="removeNOde" Content="Knoten _Entfernen"/>
+            <Button x:Name="removeNOde" Content="Knoten _Entfernen" Click="removeNOde_Click"/>
             <Separator />
             <Label Content="Knoten Text:"/>
             <TextBox x:Name="nodeText" Height="23" TextWrapping="Wrap" Text="Neuer Knoten" TextChanged="nodeText_TextChanged" />
