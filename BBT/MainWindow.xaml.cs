@@ -34,6 +34,7 @@ namespace BBT
             this._mindmap = new MindMap();
             this._mindmap.removeNodeEvent += removeNodeEventHandler;
             InitializeComponent();
+            this.changeActiveNodeEvent += activeNodeChangedHandler;
         }
 
         public void removeNodeEventHandler(object sender, ANode node)
@@ -63,8 +64,7 @@ namespace BBT
             Canvas.SetZIndex(nodeElement.Item2, 1);
             nodeElement.Item2.MouseLeftButtonDown += Node_MouseLeftButtonDown;
             this.MindMapCanvas.Children.Add(nodeElement.Item2);
-            if (this._currentMarkedNode == null)
-                this._currentMarkedNode = node;
+            changeActiveNode(this, node);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -92,6 +92,7 @@ namespace BBT
 
                 node.setParent(null);
                 this._mindmap.setMainNode(node);
+                node.getStyle().setActivated(true);
 
                 node.setText(this.nodeText.Text);
             }
@@ -240,25 +241,7 @@ namespace BBT
                 {
                     if (tempKeyValuePair.Value == tempGrid)
                     {
-                        this._currentMarkedNode = tempKeyValuePair.Key;
-
-                        this.nodeText.Text = this._currentMarkedNode.getText();
-
-                        var converter = new System.Windows.Media.BrushConverter();
-                        var brush = (Brush)converter.ConvertFromString(this._currentMarkedNode.getStyle().getColor().Item1.ToString());
-                       
-
-                        this.colorRect.Fill = brush;
-                        this.fillCheckBox.IsChecked = this._currentMarkedNode.getStyle().getColor().Item2;
-                        /*switch (this._currentMarkedNode.getForm())
-                        {
-                        
-                        }
-                        
-                        this.ChooseForm.SelectedIndex = this._currentMarkedNode.getForm();
-
-
-                        */
+                        this.changeActiveNode(this, tempKeyValuePair.Key);
                         break;
                     }
                 }
@@ -372,7 +355,46 @@ namespace BBT
             finally
             {
                 node.endUpdate();
-                _currentMarkedNode = node;
+                this.changeActiveNode(this, node);
+            }
+        }
+
+        protected void changeActiveNode(object sender, ANode node)
+        {
+            if ((this.changeActiveNodeEvent != null))
+                changeActiveNodeEvent(this, node);
+        }
+
+        public delegate void changedActiveNodeEventHandler(object sender, ANode node);
+
+        public event changedActiveNodeEventHandler changeActiveNodeEvent;
+
+        private void activeNodeChangedHandler(object sender, ANode node)
+        {
+            if (this._currentMarkedNode != node)
+            {
+                if (this._currentMarkedNode != null)
+                    this._currentMarkedNode.getStyle().setActivated(false);
+                this._currentMarkedNode = node;
+                this._currentMarkedNode.getStyle().setActivated(true);
+
+                this.nodeText.Text = this._currentMarkedNode.getText();
+
+                var converter = new System.Windows.Media.BrushConverter();
+                var brush = (Brush)converter.ConvertFromString(this._currentMarkedNode.getStyle().getColor().Item1.ToString());
+
+
+                this.colorRect.Fill = brush;
+                this.fillCheckBox.IsChecked = this._currentMarkedNode.getStyle().getColor().Item2;
+                /*switch (this._currentMarkedNode.getForm())
+                {
+                        
+                }
+                        
+                this.ChooseForm.SelectedIndex = this._currentMarkedNode.getForm();
+
+
+                */
             }
         }
 
