@@ -13,11 +13,16 @@ namespace BBT
 
     class Rechteck : IForm
     {
+        /// <summary>
+        /// erzeugt ein Rechteck mit Text und Icon wenn vorhanden
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>das fertig gezeichnete Nodeobjekt</returns>
         Grid IForm.getStrokeFromNode(ANode node)
         {
             Grid rechteck = new Grid();
-            rechteck.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
             Rectangle zeichnung = new Rectangle();
+            rechteck.Background = new SolidColorBrush(node.getStyle().getBackgroundColor());
             rechteck.Height = node.getRectangle().Height;
             rechteck.Width = node.getRectangle().Width;
 
@@ -65,6 +70,7 @@ namespace BBT
             text.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             text.Text = node.getText();
             textPanel.Children.Add(text);
+
             rechteck.Children.Add(textPanel);
 
             return rechteck;
