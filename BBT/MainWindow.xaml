@@ -40,6 +40,7 @@
                 <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
                 <ComboBoxItem x:Name="Circle" Content="Kreis"/>
             </ComboBox>
+            
             <StackPanel Orientation="Horizontal">
                 <Label Content="Icon wählen:"/>
                 <Image Height="20" Width="20" x:Name="IconImage"/>
@@ -50,22 +51,13 @@
             
             <ComboBox SelectedIndex="0" x:Name="IconComboBox">
                 <Label x:Name="AddIcon" Content="Icon Hinzufügen..." MouseDown="AddIcon_MouseDown" />
-                <!--<ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="16" Height="16" />
-                            <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-                -->
             </ComboBox>
 
 
         </StackPanel>
 
 
-        <Canvas x:Name="MindMapCanvas" Background="White" MouseMove="MindMapCanvas_MouseMove" MouseDown="MindMapCanvas_MouseDown" MouseWheel="MindMapCanvas_MouseWheel" >
+        <Canvas x:Name="MindMapCanvas" Background="White" MouseMove="MindMapCanvas_MouseMove"  MouseWheel="MindMapCanvas_MouseWheel" >
             <Canvas.RenderTransform>
                 <TranslateTransform x:Name="canvasTransform" />
                 
