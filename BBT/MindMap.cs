@@ -61,7 +61,7 @@ using System.Windows.Shapes;
 
             internal void delete(TreeElement knoten, bool recursive)
             {
-                if ((this.children.Count > 0) && !recursive)
+                if ((knoten.children.Count > 0) && !recursive)
                     throw new ETreeDeleteNotAllowed("Der Knoten, den du löschen wolltest hat noch Kinderknoten.");
 
                 if (recursive)
