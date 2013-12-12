@@ -23,16 +23,6 @@ namespace BBT
             this._onUpdateing = false;
             this.changeNode(this, this);
         }
-        /// <summary>
-        /// ein kleiner Wrapper um die Events!
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="node"></param>
-        protected void changeNode(object sender, ANode node)
-        {
-            if ((this.changeNodeEvent != null) && (!this._onUpdateing))
-                changeNodeEvent(this, node);
-        }
 
         public abstract Rect getRectangle();
         public abstract void setRectangle(Rect rectangle);
@@ -68,6 +58,17 @@ namespace BBT
         public delegate void changedNodeEventHandler(object sender, ANode node);
 
         public event changedNodeEventHandler changeNodeEvent;
+
+        /// <summary>
+        /// ein kleiner Wrapper um die Events!
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="node"></param>
+        protected void changeNode(object sender, ANode node)
+        {
+            if ((this.changeNodeEvent != null) && (!this._onUpdateing))
+                changeNodeEvent(this, node);
+        }
 
         public void invalidate()
         {
