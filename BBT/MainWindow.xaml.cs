@@ -212,23 +212,6 @@ namespace BBT
             {
                 ExitFullscreen();
             }
-            if (e.Key == Key.D)
-            {
-                canvasTransform.X += 1;
-            }
-            if (e.Key == Key.A)
-            {
-                canvasTransform.X -= 1;
-            }
-            if (e.Key == Key.S)
-            {
-                canvasTransform.Y += 1;
-            }
-            if (e.Key == Key.W)
-            {
-                canvasTransform.Y -= 1;
-            }
-
         }
         /// <summary>
         /// Zeichenfarben mit ColorDialog wählen
@@ -551,24 +534,12 @@ namespace BBT
         {
             if (e.Delta > 0)
             {
-                if (ScaleTransform.ScaleY < 4.8)
-                {
-                    ScaleTransform.ScaleX += 0.1;
-                    ScaleTransform.ScaleY += 0.1;
-                    ScaleTransform.CenterX = e.GetPosition(MindMapCanvas).X;
-                    ScaleTransform.CenterY = e.GetPosition(MindMapCanvas).Y;
+                
 
-                }
             }
             if (e.Delta < 0)
             {
-                if (ScaleTransform.ScaleX > 0.2)
-                {
-                    ScaleTransform.ScaleX -= 0.1;
-                    ScaleTransform.ScaleY -= 0.1;
-                    ScaleTransform.CenterX = e.GetPosition(MindMapCanvas).X;
-                    ScaleTransform.CenterY = e.GetPosition(MindMapCanvas).Y;
-                }
+              
                 
             }
         }
