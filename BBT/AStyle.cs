@@ -8,6 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace BBT
 {
+    /// <summary>
+    /// abstrakte klasse für Style um die Events durchzureichen
+    /// </summary>
     abstract class AStyle : IStyle
     {
 
@@ -36,5 +39,10 @@ namespace BBT
 
 
         public abstract bool getActivated();
+
+
+        public abstract void setBackgroundColor(Color blub);
+
+        public abstract Color getBackgroundColor();
     }
 }
