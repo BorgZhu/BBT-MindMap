@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -177,6 +178,8 @@ namespace BBT
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             this.FontSizeLabel.Content = "Schriftgrösse: " + System.Convert.ToInt32(this.FontSlider.Value).ToString() + "px";
+            if(this._currentMarkedNode != null)
+                this._currentMarkedNode.getStyle().setFontsize((int)this.FontSlider.Value);
         }
         /// <summary>
         /// Programm Beenden
@@ -194,6 +197,23 @@ namespace BBT
             {
                 ExitFullscreen();
             }
+            if (e.Key == Key.D)
+            {
+                canvasTransform.X += 1;
+            }
+            if (e.Key == Key.A)
+            {
+                canvasTransform.X -= 1;
+            }
+            if (e.Key == Key.S)
+            {
+                canvasTransform.Y += 1;
+            }
+            if (e.Key == Key.W)
+            {
+                canvasTransform.Y -= 1;
+            }
+
         }
 
         private void ChooseColor_Click(object sender, RoutedEventArgs e)
@@ -201,8 +221,6 @@ namespace BBT
             ColorDialog MyDialog = new ColorDialog();
             MyDialog.AllowFullOpen = true;
             MyDialog.ShowDialog();
-            //Color
-            Color myColor = System.Windows.Media.Color.FromArgb(1, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
             //Brush
             SolidColorBrush myBrush = new SolidColorBrush();
             myBrush.Color = System.Windows.Media.Color.FromArgb(255, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
@@ -217,14 +235,11 @@ namespace BBT
                 IStyle nodeStyle = _currentMarkedNode.getStyle();
                 nodeStyle.setColor(Tuple.Create((this.colorRect.Fill as SolidColorBrush).Color, (bool)this.fillCheckBox.IsChecked));
                 _currentMarkedNode.setStyle((AStyle)nodeStyle);
-
             }
             finally
             {
                 _currentMarkedNode.endUpdate();
             }
-
-
         }
 
         /// <summary>
@@ -241,7 +256,7 @@ namespace BBT
             myBrush.Color = System.Windows.Media.Color.FromArgb(255, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
 
             this.MindMapCanvas.Background = myBrush;
-
+            this.Background = myBrush;
         }
 
         private void Node_MouseLeftButton(object sender, MouseButtonEventArgs e)
@@ -360,7 +375,33 @@ namespace BBT
                         break;
                 }
 
-                node.setRectangle(new Rect(new Point(_currentMarkedNode.getRectangle().TopLeft.X+150, _currentMarkedNode.getRectangle().TopLeft.Y), new Point(_currentMarkedNode.getRectangle().BottomRight.X+150, _currentMarkedNode.getRectangle().BottomRight.Y)));
+                //Punkte bestimmen
+                //Links
+                Rect rLeft = new Rect(new Point(_currentMarkedNode.getRectangle().TopLeft.X + 150, _currentMarkedNode.getRectangle().TopLeft.Y), new Point(_currentMarkedNode.getRectangle().BottomRight.X + 150, _currentMarkedNode.getRectangle().BottomRight.Y));
+                //Rechts
+                Rect rRight = new Rect(new Point(_currentMarkedNode.getRectangle().TopLeft.X - 150, _currentMarkedNode.getRectangle().TopLeft.Y), new Point(_currentMarkedNode.getRectangle().BottomRight.X - 150, _currentMarkedNode.getRectangle().BottomRight.Y));
+                //Oben
+                Rect rTop = new Rect(new Point(_currentMarkedNode.getRectangle().TopLeft.X, _currentMarkedNode.getRectangle().TopLeft.Y-150), new Point(_currentMarkedNode.getRectangle().BottomRight.X, _currentMarkedNode.getRectangle().BottomRight.Y-150));
+                //Unten
+                Rect rBot = new Rect(new Point(_currentMarkedNode.getRectangle().TopLeft.X, _currentMarkedNode.getRectangle().TopLeft.Y + 150), new Point(_currentMarkedNode.getRectangle().BottomRight.X, _currentMarkedNode.getRectangle().BottomRight.Y + 150));
+                Rect r = new Rect();
+                Random random = new Random();
+                switch (random.Next(0, 4))
+                {
+                    case 0:
+                        r = rLeft;
+                        break;
+                    case 1:
+                        r = rRight;
+                        break;
+                    case 2:
+                        r = rTop;
+                        break;
+                    case 3:
+                        r = rBot;
+                        break;
+                }
+                node.setRectangle(r);
 
                 AStyle nodeStyle = new Style();
                 nodeStyle.setColor(Tuple.Create((this.colorRect.Fill as SolidColorBrush).Color, (bool)this.fillCheckBox.IsChecked));
@@ -369,7 +410,7 @@ namespace BBT
                 node.setParent(_currentMarkedNode); 
                 this._mindmap.addNode(node);
 
-                node.setText(this.nodeText.Text);
+                node.setText("Neuer Knoten");
             }
             finally
             {
@@ -399,21 +440,28 @@ namespace BBT
 
                 this.nodeText.Text = this._currentMarkedNode.getText();
 
+                this.FontSlider.Value = this._currentMarkedNode.getStyle().getFontsize();
+
                 var converter = new System.Windows.Media.BrushConverter();
                 var brush = (Brush)converter.ConvertFromString(this._currentMarkedNode.getStyle().getColor().Item1.ToString());
 
 
                 this.colorRect.Fill = brush;
                 this.fillCheckBox.IsChecked = this._currentMarkedNode.getStyle().getColor().Item2;
-                /*switch (this._currentMarkedNode.getForm())
+
+                if (this._currentMarkedNode.getForm().ToString() == "Rechteck")
                 {
-                        
+                    this.ChooseForm.SelectedIndex = 0;
                 }
-                        
-                this.ChooseForm.SelectedIndex = this._currentMarkedNode.getForm();
+                else
+                {
+                    this.ChooseForm.SelectedIndex = 1;
+                }
+
+                this.IconImage.Source = _currentMarkedNode.getStyle().getIcon();
 
 
-                */
+                
             }
         }
 
@@ -447,6 +495,135 @@ namespace BBT
         private void removeNOde_Click(object sender, RoutedEventArgs e)
         {
             this._mindmap.removeNode(_currentMarkedNode);
+        }
+
+        private void MindMapCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.MindMapCanvas.Focusable = true;
+            this.MindMapCanvas.Focus();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "Pictures (.png)|*.png";
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                //FileNameTextBox.Text = filename;
+
+
+                //Image finalImage = new Image();
+                
+                BitmapImage logo = new BitmapImage();
+                logo.BeginInit();
+                logo.UriSource = new Uri(filename);
+                logo.EndInit();
+                
+                this.IconImage.Source = logo;
+                this._currentMarkedNode.getStyle().setICon(logo);
+               
+            }
+        }
+
+        private void MindMapCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                if (ScaleTransform.ScaleY < 4.8)
+                {
+                    ScaleTransform.ScaleX += 0.1;
+                    ScaleTransform.ScaleY += 0.1;
+                    ScaleTransform.CenterX = e.GetPosition(MindMapCanvas).X;
+                    ScaleTransform.CenterY = e.GetPosition(MindMapCanvas).Y;
+
+                }
+            }
+            if (e.Delta < 0)
+            {
+                if (ScaleTransform.ScaleX > 0.2)
+                {
+                    ScaleTransform.ScaleX -= 0.1;
+                    ScaleTransform.ScaleY -= 0.1;
+                    ScaleTransform.CenterX = e.GetPosition(MindMapCanvas).X;
+                    ScaleTransform.CenterY = e.GetPosition(MindMapCanvas).Y;
+                }
+                
+            }
+        }
+
+        private void AddIcon_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "Pictures (.png)|*.png";
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+
+                BitmapImage logo = new BitmapImage();
+                logo.BeginInit();
+                logo.UriSource = new Uri(filename);
+                logo.EndInit();
+                this.IconImage.Source = logo;
+                this._currentMarkedNode.getStyle().setICon(logo);
+                this._currentMarkedNode.endUpdate();
+
+                StackPanel sp = new StackPanel();
+                sp.Orientation = System.Windows.Controls.Orientation.Horizontal;
+
+                Image img = new Image();
+                img.Width = 20;
+                img.Height = 20;
+                img.Source = logo;
+                sp.Children.Add(img);
+
+                System.Windows.Controls.Label label = new System.Windows.Controls.Label();
+                label.Content = filename;
+                sp.Children.Add(label);
+
+               // label.MouseDown += ;
+
+                this.IconComboBox.Items.Add(sp);
+            }
+
+        }
+
+
+
+
+
+        private void PickIcon_MouseDown(object sender, MouseButtonEventArgs e, String path)
+        {
+            BitmapImage logo = new BitmapImage();
+            logo.BeginInit();
+
+            String uriString = sender.GetType().FullName;
+
+            //logo.UriSource = new Uri();
+            logo.EndInit();
+            this.IconImage.Source = logo;
+            this._currentMarkedNode.getStyle().setICon(logo);
+            this._currentMarkedNode.endUpdate();
         }
 
     }
