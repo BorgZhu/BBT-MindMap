@@ -73,6 +73,12 @@ using System.Windows.Shapes;
                 }
                 this.children.Remove(knoten);
             }
+
+            internal void invalidateChilds()
+            {
+                foreach (TreeElement child in children)
+                    child.node.invalidate();
+            }
         }
 
         private TreeElement _nodeRegistry;
@@ -98,7 +104,21 @@ using System.Windows.Shapes;
             if (this._nodeRegistry.node != null)
                 throw new EMindMapNotEmpty("Die MindMap ist nicht leer!");
             this._nodeRegistry.node = node;
+            node.changeNodeEvent += node_changeNodeEvent;
         }
+
+        private void node_changeNodeEvent(object sender, ANode node)
+        {
+            if (this._nodeRegistry.node == node)
+                this._nodeRegistry.invalidateChilds();
+            else
+            {
+                TreeElement element = this._nodeRegistry.getAnyChild(node);
+                if (element != null)
+                    element.invalidateChilds();
+            }
+        }
+
         public override void addNode(ANode element)
         {
             if (element == null)
@@ -113,6 +133,7 @@ using System.Windows.Shapes;
                 parent = this._nodeRegistry;
 
             parent.addChild(element);
+            element.changeNodeEvent += node_changeNodeEvent;
 
             this.onAddNode(this, element);
         }
