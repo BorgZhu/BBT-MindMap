@@ -8,16 +8,27 @@ using System.Windows.Controls;
 
 namespace BBT
 {
+    /// <summary>
+    /// abstrakte Klasse für alle Nodes
+    /// </summary>
     abstract class ANode
     {
-
+        /// <summary>
+        /// true wenn Node geändert wird
+        /// </summary>
         private bool _onUpdateing = false;
 
+        /// <summary>
+        /// wenn Node geändert werden soll
+        /// </summary>
         public void beginUpdate()
         {
             this._onUpdateing = true;
         }
 
+        /// <summary>
+        /// wenn nodeänderung abgeschlossen
+        /// </summary>
         public void endUpdate()
         {
             this._onUpdateing = false;

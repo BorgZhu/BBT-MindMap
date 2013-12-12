@@ -8,13 +8,12 @@ using System.Windows.Media.Imaging;
 
 namespace BBT
 {
+    /// <summary>
+    /// Interface für Style
+    /// </summary>
     interface IStyle
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>Farbe und True, wenn gefüllt</returns>
-        
+       
 
         Tuple<Color, bool> getColor();
         void setColor(Tuple<Color, bool> color);
@@ -22,11 +21,13 @@ namespace BBT
         void setICon(BitmapImage icon);
         BitmapImage getIcon();
 
+        void setBackgroundColor(Color blub);
+        Color getBackgroundColor();
+
         void setFontsize(int fontSize);
         double getFontsize();
 
         void setActivated(bool active);
-
         bool getActivated();
         
 

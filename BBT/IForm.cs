@@ -9,6 +9,9 @@ using System.Windows.Ink;
 
 namespace BBT
 {
+    /// <summary>
+    /// Interface für die Forms
+    /// </summary>
     interface IForm
     {
         Grid getStrokeFromNode(ANode node);

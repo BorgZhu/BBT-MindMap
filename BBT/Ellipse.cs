@@ -9,12 +9,20 @@ using System.Windows.Shapes;
 
 namespace BBT
 {
+    /// <summary>
+    /// zeichnet eine Ellipse als Node und Icon falls vorhanden
+    /// </summary>
     class Ellipse : IForm
     {
+        /// <summary>
+        /// zeichnet den Node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>den gezeichneten Knoten</returns>
         Grid IForm.getStrokeFromNode(ANode node)
         {
             Grid ellipse = new Grid();
-            ellipse.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            ellipse.Background = new SolidColorBrush(node.getStyle().getBackgroundColor());
             ellipse.Height = node.getRectangle().Height;
             ellipse.Width = node.getRectangle().Width;
             Rectangle zeichnung = new Rectangle();
@@ -71,6 +79,10 @@ namespace BBT
             return ellipse;
         }
 
+        /// <summary>
+        /// Typrückgabe
+        /// </summary>
+        /// <returns>"Ellipse"</returns>
         public override string ToString()
         {
             return "Ellipse";
