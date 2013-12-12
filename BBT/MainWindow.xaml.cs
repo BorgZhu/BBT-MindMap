@@ -115,6 +115,11 @@ namespace BBT
                 this.DockPanel.Children.Insert(1, Toolbox);
             }
         }
+        /// <summary>
+        /// Toolbox hinzufügen Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ToolboxAdd_Click(object sender, RoutedEventArgs e)
         {
             ToolboxAdd();
@@ -129,6 +134,11 @@ namespace BBT
                 this.DockPanel.Children.Remove(Toolbox);
             }
         }
+        /// <summary>
+        /// Toolbox entfernen Event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ToolboxRemove_Click(object sender, RoutedEventArgs e)
         {
             ToolboxRemove();
@@ -178,7 +188,11 @@ namespace BBT
         {
             this.Close();
         }
-
+        /// <summary>
+        /// Wenn Taste gedrückt wird
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void KeyPressed(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Escape && this.WindowStyle == System.Windows.WindowStyle.None)
@@ -203,7 +217,11 @@ namespace BBT
             }
 
         }
-
+        /// <summary>
+        /// Zeichenfarben mit ColorDialog wählen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChooseColor_Click(object sender, RoutedEventArgs e)
         {
             ColorDialog MyDialog = new ColorDialog();
@@ -229,9 +247,8 @@ namespace BBT
                 _currentMarkedNode.endUpdate();
             }
         }
-
         /// <summary>
-        /// Hintergrundfarbe vom Canvas wird geändert
+        /// Hintergrundfarbe vom Canvas mit ColorDialog wählen
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -278,6 +295,11 @@ namespace BBT
             }
         }
 
+        /// <summary>
+        /// FillCheckbox wird gecheckt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fillCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             //Ausgewählten Knoten updaten
@@ -295,7 +317,11 @@ namespace BBT
                 _currentMarkedNode.endUpdate();
             }
         }
-
+        /// <summary>
+        /// FillCheckbox wird ungecheckt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fillCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             //Ausgewählten Knoten updaten
@@ -313,7 +339,11 @@ namespace BBT
                 _currentMarkedNode.endUpdate();
             }
         }
-
+        /// <summary>
+        /// Text im Werkzeugkasten wird geändert
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nodeText_TextChanged(object sender, TextChangedEventArgs e)
         {
             //Ausgewählten Knoten updaten
@@ -333,14 +363,15 @@ namespace BBT
                 }
             }
         }
-
+        /// <summary>
+        /// Neuen Knoten hinzufügen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addNode_Click(object sender, RoutedEventArgs e)
         {
             ANode node = new Node();
-
-     
             node.changeNodeEvent += this.handleNodeChanges;
-
             node.beginUpdate();
             try
             {
@@ -355,7 +386,6 @@ namespace BBT
                     default:
                         break;
                 }
-
                 //Punkte bestimmen
                 //Links
                 Rect rLeft = new Rect(new Point(_currentMarkedNode.getRectangle().TopLeft.X + 150, _currentMarkedNode.getRectangle().TopLeft.Y), new Point(_currentMarkedNode.getRectangle().BottomRight.X + 150, _currentMarkedNode.getRectangle().BottomRight.Y));
@@ -409,7 +439,11 @@ namespace BBT
         public delegate void changedActiveNodeEventHandler(object sender, ANode node);
 
         public event changedActiveNodeEventHandler changeActiveNodeEvent;
-
+        /// <summary>
+        /// Wenn sich der aktive Knoten ändert
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="node"></param>
         private void activeNodeChangedHandler(object sender, ANode node)
         {
             if (this._currentMarkedNode != node)
@@ -417,10 +451,11 @@ namespace BBT
                 if (this._currentMarkedNode != null)
                     this._currentMarkedNode.getStyle().setActivated(false);
                 this._currentMarkedNode = node;
+
                 this._currentMarkedNode.getStyle().setActivated(true);
 
                 this.nodeText.Text = this._currentMarkedNode.getText();
-
+                
                 this.FontSlider.Value = this._currentMarkedNode.getStyle().getFontsize();
 
                 var converter = new System.Windows.Media.BrushConverter();
@@ -445,7 +480,11 @@ namespace BBT
                 
             }
         }
-
+        /// <summary>
+        /// Form wird in Toolbox geändert
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChooseForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_currentMarkedNode != null)
@@ -475,48 +514,16 @@ namespace BBT
 
         private void removeNOde_Click(object sender, RoutedEventArgs e)
         {
-            this._mindmap.removeNode(_currentMarkedNode);
+            ANode an = _currentMarkedNode;
+            changeActiveNode(this, _currentMarkedNode.getParent());
+            this._mindmap.removeNode(an, true);
+            
         }
-
-        private void MindMapCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.MindMapCanvas.Focusable = true;
-            this.MindMapCanvas.Focus();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            // Set filter for file extension and default file extension
-            dlg.DefaultExt = ".png";
-            dlg.Filter = "Pictures (.png)|*.png";
-
-            // Display OpenFileDialog by calling ShowDialog method
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                // Open document
-                string filename = dlg.FileName;
-                //FileNameTextBox.Text = filename;
-
-
-                //Image finalImage = new Image();
-                
-                BitmapImage logo = new BitmapImage();
-                logo.BeginInit();
-                logo.UriSource = new Uri(filename);
-                logo.EndInit();
-                
-                this.IconImage.Source = logo;
-                this._currentMarkedNode.getStyle().setICon(logo);
-               
-            }
-        }
-
+        /// <summary>
+        /// MausradEvent Zoom
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MindMapCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (e.Delta > 0)
@@ -542,7 +549,11 @@ namespace BBT
                 
             }
         }
-
+        /// <summary>
+        /// Add Icon
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddIcon_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // Create OpenFileDialog
@@ -564,6 +575,8 @@ namespace BBT
                 BitmapImage logo = new BitmapImage();
                 logo.BeginInit();
                 logo.UriSource = new Uri(filename);
+                logo.DecodePixelWidth = 14;
+                logo.DecodePixelHeight = 14;
                 logo.EndInit();
                 this.IconImage.Source = logo;
                 this._currentMarkedNode.getStyle().setICon(logo);
@@ -573,8 +586,8 @@ namespace BBT
                 sp.Orientation = System.Windows.Controls.Orientation.Horizontal;
 
                 Image img = new Image();
-                img.Width = 20;
-                img.Height = 20;
+                img.Width = 16;
+                img.Height = 16;
                 img.Source = logo;
                 sp.Children.Add(img);
 
