@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -273,7 +274,7 @@ namespace BBT
             myBrush.Color = System.Windows.Media.Color.FromArgb(255, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
 
             this.MindMapCanvas.Background = myBrush;
-            this.Background = myBrush;
+            //this.Background = myBrush;
         }
 
         private void Node_MouseLeftButton(object sender, MouseButtonEventArgs e)
@@ -471,6 +472,8 @@ namespace BBT
                     this._currentMarkedNode.getStyle().setActivated(false);
                 this._currentMarkedNode = node;
 
+                this.removeNOde.IsEnabled = (this._currentMarkedNode.getParent() != null);
+
                 this._currentMarkedNode.getStyle().setActivated(true);
 
                 this.nodeText.Text = this._currentMarkedNode.getText();
@@ -534,7 +537,8 @@ namespace BBT
         private void removeNOde_Click(object sender, RoutedEventArgs e)
         {
             ANode an = _currentMarkedNode;
-            changeActiveNode(this, _currentMarkedNode.getParent());
+            if (this._currentMarkedNode.getParent() != null)
+                changeActiveNode(this, _currentMarkedNode.getParent());
             this._mindmap.removeNode(an, true);
             
         }
@@ -637,6 +641,77 @@ namespace BBT
             this.IconImage.Source = logo;
             this._currentMarkedNode.getStyle().setICon(logo);
             this._currentMarkedNode.endUpdate();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Mindmap"; // Default file name
+            dlg.DefaultExt = ".png"; // Default file extension
+            
+            dlg.Filter = "Picture documents (.png)|*.png"; // Filter files by extension
+            
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                string filename = dlg.FileName;
+                Uri path = new Uri(filename);
+                ExportToPng(path, this.MindMapCanvas);
+            }
+
+            
+            
+        }
+
+        /// <summary>
+        /// Export Canvas to PNG
+        /// </summary>
+        /// <param name="path">wo gespeichert wird</param>
+        /// <param name="surface">canvas welches gespeichert werden soll</param>
+        public void ExportToPng(Uri path, Canvas surface)
+        {
+            if (path == null) return;
+
+            // Save current canvas transform
+            Transform transform = surface.LayoutTransform;
+            // reset current transform (in case it is scaled or rotated)
+            surface.LayoutTransform = null;
+
+            // Get the size of canvas
+            Size size = new Size(surface.ActualWidth, surface.ActualHeight);
+            // Measure and arrange the surface
+            // VERY IMPORTANT
+            surface.Measure(size);
+            surface.Arrange(new Rect(size));
+
+            // Create a render bitmap and push the surface to it
+            RenderTargetBitmap renderBitmap =
+              new RenderTargetBitmap(
+                (int)size.Width,
+                (int)size.Height,
+                96d,
+                96d,
+                PixelFormats.Pbgra32);
+            renderBitmap.Render(surface);
+
+            // Create a file stream for saving image
+            using (FileStream outStream = new FileStream(path.LocalPath, FileMode.Create))
+            {
+                // Use png encoder for our data
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                // push the rendered bitmap to it
+                encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                // save the data to the stream
+                encoder.Save(outStream);
+            }
+
+            // Restore previously saved layout
+            surface.LayoutTransform = transform;
         }
 
     }
