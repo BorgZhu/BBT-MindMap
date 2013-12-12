@@ -66,9 +66,10 @@ using System.Windows.Shapes;
 
                 if (recursive)
                 {
-                    foreach (TreeElement child in knoten.children)
+                    for (int count = knoten.children.Count-1; count >= 0; count-- )
                     {
-                        this._mindmap.removeNode(child.node);
+                        TreeElement child = knoten.children[count];
+                        this._mindmap.removeNode(child.node, true);
                     }
                 }
                 this.children.Remove(knoten);
@@ -155,7 +156,7 @@ using System.Windows.Shapes;
             if (element == null)
                 throw new ENodeIsNull("der übergebene Knoten ist null!");
             TreeElement knoten = this._nodeRegistry.getAnyChild(element);
-            if (knoten == null)
+            if ((knoten == null) || (this._nodeRegistry.node == element))
                 throw new ENodeNotExist("Den Knoten, den du löschen wolltes, gibt es nicht oder ist der Hauptknoten.");
 
             TreeElement parent = knoten.parent;
