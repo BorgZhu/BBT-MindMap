@@ -79,5 +79,10 @@ namespace BBT
         public delegate void changedNodeEventHandler(object sender, ANode node);
 
         public event changedNodeEventHandler changeNodeEvent;
+
+        public void invalidate()
+        {
+            this.changeNode(this, this);
+        }
     }
 }

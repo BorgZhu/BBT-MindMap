@@ -24,14 +24,14 @@ namespace BBT
     public partial class MainWindow : Window
     {
         ANode _currentMarkedNode = null;
-        Dictionary<ANode, Grid> _nodeRegistry;
+        Dictionary<ANode, Tuple<Line, Grid>> _nodeRegistry;
         AMindMap _mindmap;
 
         
 
         public MainWindow()
         {
-            this._nodeRegistry = new Dictionary<ANode, Grid>();
+            this._nodeRegistry = new Dictionary<ANode, Tuple<Line, Grid>>();
             this._mindmap = new MindMap();
             this._mindmap.removeNodeEvent += removeNodeEventHandler;
             InitializeComponent();
@@ -40,7 +40,14 @@ namespace BBT
 
         public void removeNodeEventHandler(object sender, ANode node)
         {
-            this.MindMapCanvas.Children.Remove(this._nodeRegistry[node]);
+            if (this._nodeRegistry.ContainsKey(node))
+            {
+                if (this.MindMapCanvas.Children.Contains(this._nodeRegistry[node].Item2))
+                    this.MindMapCanvas.Children.Remove(this._nodeRegistry[node].Item2);
+
+                if (this.MindMapCanvas.Children.Contains(this._nodeRegistry[node].Item1))
+                    this.MindMapCanvas.Children.Remove(this._nodeRegistry[node].Item1);
+            }
             this._nodeRegistry.Remove(node);
         }
 
@@ -49,10 +56,13 @@ namespace BBT
             Tuple<Line, Grid> nodeElement = AMindMap.getDisplay(node);
             if (this._nodeRegistry.ContainsKey(node))
             {
-                if (this.MindMapCanvas.Children.Contains(this._nodeRegistry[node]))
-                    this.MindMapCanvas.Children.Remove(this._nodeRegistry[node]);
+                if (this.MindMapCanvas.Children.Contains(this._nodeRegistry[node].Item2))
+                        this.MindMapCanvas.Children.Remove(this._nodeRegistry[node].Item2);
+
+                if (this.MindMapCanvas.Children.Contains(this._nodeRegistry[node].Item1))
+                    this.MindMapCanvas.Children.Remove(this._nodeRegistry[node].Item1);
             }
-            this._nodeRegistry[node] = nodeElement.Item2;
+            this._nodeRegistry[node] = nodeElement;
 
             if (nodeElement.Item1 != null)
             {
@@ -63,9 +73,11 @@ namespace BBT
             Canvas.SetLeft(nodeElement.Item2, node.getRectangle().Left);
             Canvas.SetTop(nodeElement.Item2, node.getRectangle().Top);
             Canvas.SetZIndex(nodeElement.Item2, 1);
-            nodeElement.Item2.MouseLeftButtonDown += Node_MouseLeftButtonDown;
+            nodeElement.Item2.MouseLeftButtonDown += Node_MouseLeftButton;
+            nodeElement.Item2.MouseLeftButtonUp += Node_MouseLeftButton;
             this.MindMapCanvas.Children.Add(nodeElement.Item2);
-            changeActiveNode(this, node);
+            if (this._currentMarkedNode == null)
+                changeActiveNode(this, node);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -247,22 +259,29 @@ namespace BBT
             this.Background = myBrush;
         }
 
-        private void Node_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Node_MouseLeftButton(object sender, MouseButtonEventArgs e)
         {
-            if (sender is Grid)
+            if ((sender is Grid) && (e.LeftButton == MouseButtonState.Pressed))
             {
+                this.dragging = true;
                 Grid tempGrid = sender as Grid;
-                foreach (KeyValuePair<ANode, Grid> tempKeyValuePair in this._nodeRegistry)
+                this.dragStart = e.GetPosition(tempGrid);
+                foreach (KeyValuePair<ANode, Tuple<Line, Grid>> tempKeyValuePair in this._nodeRegistry)
                 {
-                    if (tempKeyValuePair.Value == tempGrid)
+                    if (tempKeyValuePair.Value.Item2 == tempGrid)
                     {
                         this.changeActiveNode(this, tempKeyValuePair.Key);
                         break;
                     }
                 }
             }
+            else if ((sender is Grid) && (e.LeftButton == MouseButtonState.Released))
+            {
+                this.dragging = false;
+            }
         }
         private bool dragging = false;
+        private Point dragStart;
 
         private void MindMapCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -271,8 +290,8 @@ namespace BBT
                 if (dragging)
                 {
                     Rect tempRect = this._currentMarkedNode.getRectangle();
-                    tempRect.X = e.GetPosition((IInputElement)sender).X;
-                    tempRect.Y = e.GetPosition((IInputElement)sender).Y;
+                    tempRect.X = e.GetPosition((IInputElement)sender).X-this.dragStart.X;
+                    tempRect.Y = e.GetPosition((IInputElement)sender).Y-this.dragStart.Y;
                     this._currentMarkedNode.setRectangle(tempRect);
                 }
             }
