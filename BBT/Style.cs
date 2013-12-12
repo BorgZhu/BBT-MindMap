@@ -12,7 +12,7 @@ namespace BBT
     /// <summary>
     /// Datenstruktur für die verschiedenen Styles und getter und setter methoden
     /// </summary>
-    class Style : AStyle
+    public class Style : AStyle
     {
         Tuple<Color, bool> farbeFill;
         BitmapImage icon;
@@ -35,8 +35,11 @@ namespace BBT
         /// <param name="color"></param>
         public override void setColor(Tuple<Color, bool> color)
         {
-            this.farbeFill = color;
-            changeStyle(this, this);
+            if (this.farbeFill != color)
+            {
+                this.farbeFill = color;
+                changeStyle(this, this);
+            }
         }
 
         /// <summary>
@@ -63,7 +66,11 @@ namespace BBT
         /// <param name="active"></param>
         public override void setActivated(bool active)
         {
-            this.isActive=active;
+            if (this.isActive != active)
+            {
+                this.isActive = active;
+                changeStyle(this, this);
+            }
         }
 
         /// <summary>
@@ -72,7 +79,11 @@ namespace BBT
         /// <param name="fontSize"></param>
         public override void setFontsize(int fontSize)
         {
-            this.fontSize = fontSize;
+            if (this.fontSize != fontSize)
+            {
+                this.fontSize = fontSize;
+                changeStyle(this, this);
+            }
         }
 
         /// <summary>

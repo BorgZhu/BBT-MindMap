@@ -11,7 +11,7 @@ namespace BBT
     /// <summary>
     /// abstrakte Klasse für alle Nodes
     /// </summary>
-    abstract class ANode
+    public abstract class ANode
     {
         /// <summary>
         /// true wenn Node geändert wird

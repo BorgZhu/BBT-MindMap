@@ -5,7 +5,7 @@
 
 
     <DockPanel LastChildFill="True" x:Name="DockPanel" >
-        <Menu DockPanel.Dock="Top" x:Name="MenuBar">
+        <Menu DockPanel.Dock="Top" x:Name="MenuBar" Panel.ZIndex="99">
             <MenuItem Header="_Datei">
                 <MenuItem Header="_Speichern"/>
                 <MenuItem Header="_Laden"/>
@@ -22,12 +22,12 @@
 
         <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox" Panel.ZIndex="999999">
             <Button x:Name="addNode" Content="_Neuer Knoten" Click="addNode_Click"/>
-            <Button x:Name="removeNOde" Content="Knoten _Entfernen"/>
+            <Button x:Name="removeNOde" Content="Knoten _Entfernen" Click="removeNOde_Click"/>
             <Separator />
             <Label Content="Knoten Text:"/>
             <TextBox x:Name="nodeText" Height="23" TextWrapping="Wrap" Text="Neuer Knoten" TextChanged="nodeText_TextChanged" />
             <Label Content="Schriftgrösse: 12px" x:Name="FontSizeLabel"/>
-            <Slider x:Name="FontSlider" Value="12" Minimum="1" Maximum="72" TickFrequency="1" ValueChanged="Slider_ValueChanged"/>
+            <Slider x:Name="FontSlider" Value="12" Minimum="1" Maximum="48" TickFrequency="1" ValueChanged="Slider_ValueChanged"/>
             <Button x:Name="chooseColorButton" Content="_Farbe wählen" Click="ChooseColor_Click"/>
             <StackPanel Orientation="Horizontal">
                 <Rectangle  Width="16" Height="16" x:Name="colorRect" Fill="Black"  />
@@ -40,9 +40,17 @@
                 <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
                 <ComboBoxItem x:Name="Circle" Content="Kreis"/>
             </ComboBox>
-            <Label Content="Icon wählen:"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Icon wählen:"/>
+                <Image Height="20" Width="20" x:Name="IconImage"/>
+                
+            </StackPanel>
+           
+            
+            
             <ComboBox SelectedIndex="0" x:Name="IconComboBox">
-                <ComboBox.ItemTemplate>
+                <Label x:Name="AddIcon" Content="Icon Hinzufügen..." MouseDown="AddIcon_MouseDown" />
+                <!--<ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="16" Height="16" />
@@ -50,12 +58,25 @@
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
+                -->
             </ComboBox>
+
 
         </StackPanel>
 
 
-        <Canvas x:Name="MindMapCanvas" Background="White" />
+        <Canvas x:Name="MindMapCanvas" Background="White" MouseMove="MindMapCanvas_MouseMove" MouseDown="MindMapCanvas_MouseDown" MouseWheel="MindMapCanvas_MouseWheel" >
+            <Canvas.RenderTransform>
+                <TranslateTransform x:Name="canvasTransform" />
+                
+            </Canvas.RenderTransform>
+            
+            <Canvas.LayoutTransform>
+                <!-- Adjust ScaleX and ScaleY in lock-step to zoom -->
+                <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" CenterX="0" CenterY="0" />
+            </Canvas.LayoutTransform>
+
+        </Canvas>
 
 
 

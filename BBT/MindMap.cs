@@ -21,11 +21,13 @@ using System.Windows.Shapes;
     {
         protected class TreeElement
         {
+            private AMindMap _mindmap = null;
             public TreeElement parent = null;
             public ANode node = null;
             public List<TreeElement> children = null;
-            public TreeElement()
+            public TreeElement(AMindMap mindmap)
             {
+                this._mindmap = mindmap;
                 this.children = new List<TreeElement>();
             }
 
@@ -51,7 +53,7 @@ using System.Windows.Shapes;
 
             public void addChild(ANode node)
             {
-                TreeElement element = new TreeElement();
+                TreeElement element = new TreeElement(this._mindmap);
                 element.node = node;
                 element.parent = this;
                 this.children.Add(element);
@@ -59,13 +61,17 @@ using System.Windows.Shapes;
 
             internal void delete(TreeElement knoten, bool recursive)
             {
-                if ((this.children.Count > 0) && !recursive)
+                if ((knoten.children.Count > 0) && !recursive)
                     throw new ETreeDeleteNotAllowed("Der Knoten, den du löschen wolltest hat noch Kinderknoten.");
 
-                if (knoten == null)
-                    this.children = null;
-                else
-                    this.children.Remove(knoten);
+                if (recursive)
+                {
+                    foreach (TreeElement child in knoten.children)
+                    {
+                        this._mindmap.removeNode(child.node);
+                    }
+                }
+                this.children.Remove(knoten);
             }
         }
 
@@ -80,7 +86,7 @@ using System.Windows.Shapes;
 
         public MindMap()
         {
-            this._nodeRegistry = new TreeElement();
+            this._nodeRegistry = new TreeElement(this);
         }
 
         public override void setMainNode(ANode node)

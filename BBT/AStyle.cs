@@ -11,7 +11,7 @@ namespace BBT
     /// <summary>
     /// abstrakte klasse für Style um die Events durchzureichen
     /// </summary>
-    abstract class AStyle : IStyle
+    public abstract class AStyle : IStyle
     {
 
         protected void changeStyle(object sender, IStyle node)

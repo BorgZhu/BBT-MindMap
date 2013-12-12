@@ -12,7 +12,7 @@ namespace BBT
     /// <summary>
     /// Interface für die Forms
     /// </summary>
-    interface IForm
+    public interface IForm
     {
         Grid getStrokeFromNode(ANode node);
     }

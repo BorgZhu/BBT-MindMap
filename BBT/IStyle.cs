@@ -11,7 +11,7 @@ namespace BBT
     /// <summary>
     /// Interface für Style
     /// </summary>
-    interface IStyle
+    public interface IStyle
     {
        
 
