@@ -25,6 +25,8 @@ namespace BBT
         }
         public override void setRectangle(Rect rectangle)
         {
+            rectangle.X = Math.Max(0, rectangle.X);
+            rectangle.Y = Math.Max(0, rectangle.Y);
             this.grundform = rectangle;
             changeNode(this, this);
         }

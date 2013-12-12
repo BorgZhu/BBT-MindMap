@@ -107,6 +107,15 @@ using System.Windows.Shapes;
             node.changeNodeEvent += node_changeNodeEvent;
         }
 
+        private Size _drawSize;
+
+        public override void setDrawSize(Size newSize)
+        {
+            this._drawSize.Width = Math.Max(newSize.Width, this._drawSize.Width);
+            this._drawSize.Height = Math.Max(newSize.Height, this._drawSize.Height);
+            this.changeDrawSize(this, this._drawSize);
+        }
+
         private void node_changeNodeEvent(object sender, ANode node)
         {
             if (this._nodeRegistry.node == node)
@@ -117,6 +126,9 @@ using System.Windows.Shapes;
                 if (element != null)
                     element.invalidateChilds();
             }
+
+            this.setDrawSize(new Size(Math.Max(this._drawSize.Width, node.getRectangle().Right), 
+                Math.Max(this._drawSize.Height, node.getRectangle().Bottom)));
         }
 
         public override void addNode(ANode element)
@@ -150,6 +162,11 @@ using System.Windows.Shapes;
             parent.delete(knoten, recursive);
 
             this.onRemoveNode(this, element);
+        }
+
+        public override Size getDrawSize()
+        {
+            return this._drawSize;
         }
 
         public override ANode getMainNode()

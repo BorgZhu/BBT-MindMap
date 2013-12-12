@@ -63,5 +63,23 @@ namespace BBT
 
         public event addNodeEventHandler addNodeEvent;
         public event removeNodeEventHandler removeNodeEvent;
+
+        public delegate void changedSizeEventHandler(object sender, Size newSize);
+
+        public event changedSizeEventHandler changeSizeEvent;
+
+        /// <summary>
+        /// ein kleiner Wrapper um die Events!
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="node"></param>
+        protected void changeDrawSize(object sender, Size newSize)
+        {
+            if ((this.changeSizeEvent != null))
+                changeSizeEvent(this, newSize);
+        }
+
+        public abstract void setDrawSize(Size newSize);
+        public abstract Size getDrawSize();
     }
 }

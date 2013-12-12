@@ -1,7 +1,7 @@
 ﻿<Window x:Class="BBT.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Mindmap BBT Pro" Height="500" Width="800" KeyDown="KeyPressed" Loaded="Window_Loaded">
+        Title="Mindmap BBT Pro" Height="664" Width="926" KeyDown="KeyPressed" Loaded="Window_Loaded">
 
 
     <DockPanel LastChildFill="True" x:Name="DockPanel" >
@@ -34,7 +34,7 @@
                 <CheckBox x:Name="fillCheckBox" Content="Gefüllt Zeichnen" Checked="fillCheckBox_Checked" Unchecked="fillCheckBox_Unchecked"/>
             </StackPanel>
 
-           
+
             <Label Content="Form wählen:"/>
             <ComboBox x:Name="ChooseForm" SelectedIndex="0" SelectionChanged="ChooseForm_SelectionChanged">
                 <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
@@ -43,11 +43,11 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="Icon wählen:"/>
                 <Image Height="20" Width="20" x:Name="IconImage"/>
-                
+
             </StackPanel>
-           
-            
-            
+
+
+
             <ComboBox SelectedIndex="0" x:Name="IconComboBox">
                 <Label x:Name="AddIcon" Content="Icon Hinzufügen..." MouseDown="AddIcon_MouseDown" />
                 <!--<ComboBox.ItemTemplate>
@@ -63,23 +63,10 @@
 
 
         </StackPanel>
-
-
-        <Canvas x:Name="MindMapCanvas" Background="White" MouseMove="MindMapCanvas_MouseMove" MouseDown="MindMapCanvas_MouseDown" MouseWheel="MindMapCanvas_MouseWheel" >
-            <Canvas.RenderTransform>
-                <TranslateTransform x:Name="canvasTransform" />
-                
-            </Canvas.RenderTransform>
-            
-            <Canvas.LayoutTransform>
-                <!-- Adjust ScaleX and ScaleY in lock-step to zoom -->
-                <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" CenterX="0" CenterY="0" />
-            </Canvas.LayoutTransform>
-
-        </Canvas>
-
-
-
+        <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Canvas x:Name="MindMapCanvas" Background="White" MouseMove="MindMapCanvas_MouseMove" SizeChanged="MindMapCanvas_SizeChanged" >
+            </Canvas>
+        </ScrollViewer>
     </DockPanel>
 
 </Window>

@@ -34,8 +34,15 @@ namespace BBT
             this._nodeRegistry = new Dictionary<ANode, Tuple<Line, Grid>>();
             this._mindmap = new MindMap();
             this._mindmap.removeNodeEvent += removeNodeEventHandler;
+            this._mindmap.changeSizeEvent += _mindmap_changeSizeEvent;
             InitializeComponent();
             this.changeActiveNodeEvent += activeNodeChangedHandler;
+        }
+
+        void _mindmap_changeSizeEvent(object sender, Size newSize)
+        {
+            this.MindMapCanvas.Width = newSize.Width;
+            this.MindMapCanvas.Height = newSize.Height;
         }
 
         public void removeNodeEventHandler(object sender, ANode node)
@@ -76,6 +83,7 @@ namespace BBT
             nodeElement.Item2.MouseLeftButtonDown += Node_MouseLeftButton;
             nodeElement.Item2.MouseLeftButtonUp += Node_MouseLeftButton;
             this.MindMapCanvas.Children.Add(nodeElement.Item2);
+            
             if (this._currentMarkedNode == null)
                 changeActiveNode(this, node);
         }
@@ -197,23 +205,6 @@ namespace BBT
             {
                 ExitFullscreen();
             }
-            if (e.Key == Key.D)
-            {
-                canvasTransform.X += 1;
-            }
-            if (e.Key == Key.A)
-            {
-                canvasTransform.X -= 1;
-            }
-            if (e.Key == Key.S)
-            {
-                canvasTransform.Y += 1;
-            }
-            if (e.Key == Key.W)
-            {
-                canvasTransform.Y -= 1;
-            }
-
         }
 
         private void ChooseColor_Click(object sender, RoutedEventArgs e)
@@ -256,7 +247,7 @@ namespace BBT
             myBrush.Color = System.Windows.Media.Color.FromArgb(255, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
 
             this.MindMapCanvas.Background = myBrush;
-            this.Background = myBrush;
+            //this.Background = myBrush;
         }
 
         private void Node_MouseLeftButton(object sender, MouseButtonEventArgs e)
@@ -497,12 +488,6 @@ namespace BBT
             this._mindmap.removeNode(_currentMarkedNode);
         }
 
-        private void MindMapCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.MindMapCanvas.Focusable = true;
-            this.MindMapCanvas.Focus();
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
@@ -533,32 +518,6 @@ namespace BBT
                 this.IconImage.Source = logo;
                 this._currentMarkedNode.getStyle().setICon(logo);
                
-            }
-        }
-
-        private void MindMapCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (e.Delta > 0)
-            {
-                if (ScaleTransform.ScaleY < 4.8)
-                {
-                    ScaleTransform.ScaleX += 0.1;
-                    ScaleTransform.ScaleY += 0.1;
-                    ScaleTransform.CenterX = e.GetPosition(MindMapCanvas).X;
-                    ScaleTransform.CenterY = e.GetPosition(MindMapCanvas).Y;
-
-                }
-            }
-            if (e.Delta < 0)
-            {
-                if (ScaleTransform.ScaleX > 0.2)
-                {
-                    ScaleTransform.ScaleX -= 0.1;
-                    ScaleTransform.ScaleY -= 0.1;
-                    ScaleTransform.CenterX = e.GetPosition(MindMapCanvas).X;
-                    ScaleTransform.CenterY = e.GetPosition(MindMapCanvas).Y;
-                }
-                
             }
         }
 
@@ -608,10 +567,6 @@ namespace BBT
 
         }
 
-
-
-
-
         private void PickIcon_MouseDown(object sender, MouseButtonEventArgs e, String path)
         {
             BitmapImage logo = new BitmapImage();
@@ -624,6 +579,11 @@ namespace BBT
             this.IconImage.Source = logo;
             this._currentMarkedNode.getStyle().setICon(logo);
             this._currentMarkedNode.endUpdate();
+        }
+
+        private void MindMapCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this._mindmap.setDrawSize(e.NewSize);
         }
 
     }

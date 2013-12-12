@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -16,9 +17,9 @@ namespace BBT
         {
             Grid rechteck = new Grid();
             rechteck.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            Rectangle zeichnung = new Rectangle();
             rechteck.Height = node.getRectangle().Height;
             rechteck.Width = node.getRectangle().Width;
-            Rectangle zeichnung = new Rectangle();
 
             zeichnung.RadiusX = rechteck.Height/10;
             zeichnung.RadiusY = rechteck.Height/10;
@@ -65,7 +66,7 @@ namespace BBT
             text.Text = node.getText();
             textPanel.Children.Add(text);
             rechteck.Children.Add(textPanel);
-            
+
             return rechteck;
         }
 
