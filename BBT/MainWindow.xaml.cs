@@ -267,14 +267,31 @@ namespace BBT
             this.MindMapCanvas.Background = myBrush;
             //this.Background = myBrush;
         }
-
+        Point click;
+        Rect grundRechteck;
         private void Node_MouseLeftButton(object sender, MouseButtonEventArgs e)
         {
+            if ((sender is Grid))
+            {
+                if ((e.GetPosition(MindMapCanvas).X > (this._currentMarkedNode.getRectangle().X + this._currentMarkedNode.getRectangle().Width - 10)) && (e.GetPosition(MindMapCanvas).X < (this._currentMarkedNode.getRectangle().X + this._currentMarkedNode.getRectangle().Width)) && (e.GetPosition(MindMapCanvas).Y > (this._currentMarkedNode.getRectangle().Y + this._currentMarkedNode.getRectangle().Height - 10)) && (e.GetPosition(MindMapCanvas).Y < (this._currentMarkedNode.getRectangle().Y + this._currentMarkedNode.getRectangle().Height)))
+                {
+                    Mouse.SetCursor(System.Windows.Input.Cursors.Cross);
+                }
+            }
             if ((sender is Grid) && (e.LeftButton == MouseButtonState.Pressed))
             {
-                this.dragging = true;
+                if ((e.GetPosition(MindMapCanvas).X > (this._currentMarkedNode.getRectangle().X + this._currentMarkedNode.getRectangle().Width - 10)) && (e.GetPosition(MindMapCanvas).X < (this._currentMarkedNode.getRectangle().X + this._currentMarkedNode.getRectangle().Width)) && (e.GetPosition(MindMapCanvas).Y > (this._currentMarkedNode.getRectangle().Y + this._currentMarkedNode.getRectangle().Height - 10)) && (e.GetPosition(MindMapCanvas).Y < (this._currentMarkedNode.getRectangle().Y + this._currentMarkedNode.getRectangle().Height)))
+                {
+                    size = true;
+                    click = e.GetPosition(MindMapCanvas);
+                    Mouse.OverrideCursor = System.Windows.Input.Cursors.SizeAll;
+                    grundRechteck = this._currentMarkedNode.getRectangle();
+                }
+                else
+                    this.dragging = true;
                 Grid tempGrid = sender as Grid;
                 this.dragStart = e.GetPosition(tempGrid);
+                
                 foreach (KeyValuePair<ANode, Tuple<Line, Grid>> tempKeyValuePair in this._nodeRegistry)
                 {
                     if (tempKeyValuePair.Value.Item2 == tempGrid)
@@ -287,22 +304,49 @@ namespace BBT
             else if ((sender is Grid) && (e.LeftButton == MouseButtonState.Released))
             {
                 this.dragging = false;
+                this.size = false;
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+            }
+            if (e.LeftButton == MouseButtonState.Released)
+            {
+                this.dragging = false;
+                this.size = false;
             }
         }
         private bool dragging = false;
         private Point dragStart;
-
+        bool size = false;
         private void MindMapCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (sender is IInputElement)
             {
+                Rect tempRect;
                 if (dragging)
                 {
-                    Rect tempRect = this._currentMarkedNode.getRectangle();
-                    tempRect.X = e.GetPosition((IInputElement)sender).X-this.dragStart.X;
-                    tempRect.Y = e.GetPosition((IInputElement)sender).Y-this.dragStart.Y;
+                    tempRect = this._currentMarkedNode.getRectangle();
+                    tempRect.X = e.GetPosition((IInputElement)sender).X - this.dragStart.X;
+                    tempRect.Y = e.GetPosition((IInputElement)sender).Y - this.dragStart.Y;
+                    this._currentMarkedNode.setRectangle(tempRect);
+                    
+                }
+                else if (size)
+                {           
+                    tempRect = this._currentMarkedNode.getRectangle();
+
+                    if ((e.GetPosition((IInputElement)sender).X - this.click.X + grundRechteck.Width) >= 29)
+                        tempRect.Width = e.GetPosition((IInputElement)sender).X - this.click.X + grundRechteck.Width;
+                    else
+                    {
+                        
+                        tempRect.Width = 30;
+                    }
+                    if ((e.GetPosition((IInputElement)sender).Y - this.click.Y + grundRechteck.Height) >= 29)
+                        tempRect.Height = e.GetPosition((IInputElement)sender).Y - this.click.Y + grundRechteck.Height;
+                    else
+                        tempRect.Height = 30;
                     this._currentMarkedNode.setRectangle(tempRect);
                 }
+                
             }
         }
 
