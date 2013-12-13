@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
@@ -34,20 +35,32 @@ namespace BBT
             {
                 zeichnung.Fill = farbe;
                 zeichnung.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                zeichnung.StrokeThickness = 2;
-                ellipse.Children.Add(zeichnung);
+                
             }
             else
             {
+                zeichnung.Fill = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
                 zeichnung.Stroke = farbe;
-                zeichnung.StrokeThickness = 2;
-                ellipse.Children.Add(zeichnung);
             }
+
+            zeichnung.StrokeThickness = 2;
+            ellipse.Children.Add(zeichnung);
 
             if (node.getStyle().getActivated())
                 zeichnung.StrokeThickness = 4;
             else
                 zeichnung.StrokeThickness = 2;
+
+            Polygon dreieck = new Polygon();
+            PointCollection y = new PointCollection();
+            y.Add(new Point(ellipse.Width, ellipse.Height));
+            y.Add(new Point(ellipse.Width - 10, ellipse.Height));
+            y.Add(new Point(ellipse.Width, ellipse.Height - 10));
+            dreieck.Points = y;
+            dreieck.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0));
+
+            ellipse.Children.Add(dreieck);
+
 
             StackPanel textPanel = new StackPanel();
             textPanel.Orientation = Orientation.Horizontal;
