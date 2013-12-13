@@ -21,7 +21,10 @@ namespace BBT
         Grid IForm.getStrokeFromNode(ANode node)
         {
             Grid rechteck = new Grid();
+            
             Rectangle zeichnung = new Rectangle();
+            
+
             rechteck.Background = new SolidColorBrush(node.getStyle().getBackgroundColor());
             rechteck.Height = node.getRectangle().Height;
             rechteck.Width = node.getRectangle().Width;
@@ -37,6 +40,7 @@ namespace BBT
             }
             else
             {
+                zeichnung.Fill = new SolidColorBrush(Color.FromArgb(255,255,255,255));
                 zeichnung.Stroke = farbe;
                 
             }
@@ -46,6 +50,16 @@ namespace BBT
                 zeichnung.StrokeThickness = 2;
 
             rechteck.Children.Add(zeichnung);
+
+            Polygon dreieck = new Polygon();
+            PointCollection y = new PointCollection();
+            y.Add(new Point(rechteck.Width, rechteck.Height));
+            y.Add(new Point(rechteck.Width - 10, rechteck.Height));
+            y.Add(new Point(rechteck.Width, rechteck.Height - 10));
+            dreieck.Points = y;
+            dreieck.Fill = new SolidColorBrush(Color.FromArgb(100, 0, 0, 0));
+
+            rechteck.Children.Add(dreieck);
 
             StackPanel textPanel = new StackPanel();
             textPanel.Orientation=Orientation.Horizontal;
@@ -57,6 +71,7 @@ namespace BBT
             {
                 Image bild = new Image();
                 bild.Source = node.getStyle().getIcon();
+
                 bild.Width = node.getRectangle().Width/4;
                 bild.Height = node.getRectangle().Width / 4;
                 bild.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
