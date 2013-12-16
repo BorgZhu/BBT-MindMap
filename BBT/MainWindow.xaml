@@ -1,7 +1,7 @@
 ﻿<Window x:Class="BBT.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Mindmap BBT Pro" Height="664" Width="926" KeyDown="KeyPressed" Loaded="Window_Loaded">
+        Title="Mindmap BBT Pro" Height="664" Width="926" KeyDown="KeyPressed" Loaded="Window_Loaded" Icon="dzone.ico">
 
     <!-- DockPanel Start -->
     <DockPanel LastChildFill="True" x:Name="DockPanel" >
