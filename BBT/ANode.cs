@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace BBT
 {
@@ -63,8 +64,8 @@ namespace BBT
             return this.getForm().getStrokeFromNode(this);
         }
 
-        public abstract string toJson();
-        public abstract void fromJson(string Json);
+        public abstract XElement toXML();
+        public abstract void fromXML(XElement XML);
 
         public delegate void changedNodeEventHandler(object sender, ANode node);
 
