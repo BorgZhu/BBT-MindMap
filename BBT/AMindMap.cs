@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace BBT
 {
@@ -24,7 +25,7 @@ namespace BBT
                 removeNodeEvent(this, node);
         }
 
-        public abstract void setMainNode(ANode node);
+        public abstract void setMainNode(ANode node, bool ignoreNotEmpty = false);
         public abstract void removeNode(ANode node, bool recursive = false);
         public abstract void addNode(ANode node);
         public delegate void addNodeEventHandler(object sender, ANode node);
@@ -50,8 +51,8 @@ namespace BBT
             return Tuple.Create(line, grid);
         }
 
-        public abstract string toJson();
-        public abstract void fromJson(string Json);
+        public abstract XElement toXML();
+        public abstract void fromXML(XElement XML);
 
         public abstract ANode getMainNode();
         static public Point transformCoords(Point transformPoint, Point mainNodeCoords)
