@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Mindmap BBT Pro" Height="664" Width="926" KeyDown="KeyPressed" Loaded="Window_Loaded">
 
-
+    <!-- DockPanel Start -->
     <DockPanel LastChildFill="True" x:Name="DockPanel" >
+        <!-- Menu Zeile an DockPanel angefügt -->
         <Menu DockPanel.Dock="Top" x:Name="MenuBar" Panel.ZIndex="99">
             <MenuItem Header="_Datei">
                 <MenuItem Header="_Speichern" Click="MenuItem_Click" />
@@ -19,7 +20,7 @@
                 <MenuItem Header="Hintergrundfarbe ändern" Click="ChangeBackgroundColor_Click"/>
             </MenuItem>
         </Menu>
-
+        <!-- StackPanel (Werkzeugkasten) an DockPanel angefügt -->
         <StackPanel DockPanel.Dock="Right" Width="150" Background="Gray" x:Name="Toolbox" Panel.ZIndex="999999">
             <Button x:Name="addNode" Content="_Neuer Knoten" Click="addNode_Click"/>
             <Button x:Name="removeNOde" Content="Knoten _Entfernen" Click="removeNOde_Click"/>
@@ -33,8 +34,6 @@
                 <Rectangle  Width="16" Height="16" x:Name="colorRect" Fill="Black"  />
                 <CheckBox x:Name="fillCheckBox" Content="Gefüllt Zeichnen" Checked="fillCheckBox_Checked" Unchecked="fillCheckBox_Unchecked"/>
             </StackPanel>
-
-
             <Label Content="Form wählen:"/>
             <ComboBox x:Name="ChooseForm" SelectedIndex="0" SelectionChanged="ChooseForm_SelectionChanged">
                 <ComboBoxItem x:Name="Rectangle" Content="Viereck"/>
@@ -49,16 +48,19 @@
 
 
 
-            <ComboBox SelectedIndex="0" x:Name="IconComboBox">
-                <Label x:Name="AddIcon" Content="Icon Hinzufügen..." MouseDown="AddIcon_MouseDown" />
-            </ComboBox>
+            
+           <Button x:Name="AddIcon" Content="Icon Hinzufügen..." Click="AddIcon_Click" />
+            
 
 
         </StackPanel>
+
+        <!-- ScrollViewer mit Canvas an DockPanel angefügt. Mit LastChildFill="True" Füllt es das DockPanel aus -->
         <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <Canvas x:Name="MindMapCanvas" Background="White" MouseMove="MindMapCanvas_MouseMove" SizeChanged="MindMapCanvas_SizeChanged" >
             </Canvas>
         </ScrollViewer>
+        
     </DockPanel>
 
 </Window>
