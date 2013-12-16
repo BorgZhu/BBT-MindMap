@@ -588,72 +588,9 @@ namespace BBT
         }
 
 
-        /// <summary>
-        /// Add Icon
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AddIcon_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // Create OpenFileDialog
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+        
 
-            // Set filter for file extension and default file extension
-            dlg.DefaultExt = ".png";
-            dlg.Filter = "Pictures (.png)|*.png";
-
-            // Display OpenFileDialog by calling ShowDialog method
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                // Open document
-                string filename = dlg.FileName;
-
-                BitmapImage logo = new BitmapImage();
-                logo.BeginInit();
-                logo.UriSource = new Uri(filename);
-                logo.DecodePixelWidth = 14;
-                logo.DecodePixelHeight = 14;
-                logo.EndInit();
-                this.IconImage.Source = logo;
-                this._currentMarkedNode.getStyle().setICon(logo);
-                this._currentMarkedNode.endUpdate();
-
-                StackPanel sp = new StackPanel();
-                sp.Orientation = System.Windows.Controls.Orientation.Horizontal;
-
-                Image img = new Image();
-                img.Width = 16;
-                img.Height = 16;
-                img.Source = logo;
-                sp.Children.Add(img);
-
-                System.Windows.Controls.Label label = new System.Windows.Controls.Label();
-                label.Content = filename;
-                sp.Children.Add(label);
-
-               // label.MouseDown += ;
-
-                this.IconComboBox.Items.Add(sp);
-            }
-
-        }
-
-        private void PickIcon_MouseDown(object sender, MouseButtonEventArgs e, String path)
-        {
-            BitmapImage logo = new BitmapImage();
-            logo.BeginInit();
-
-            String uriString = sender.GetType().FullName;
-
-            //logo.UriSource = new Uri();
-            logo.EndInit();
-            this.IconImage.Source = logo;
-            this._currentMarkedNode.getStyle().setICon(logo);
-            this._currentMarkedNode.endUpdate();
-        }
+        
 
         private void MindMapCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -685,8 +622,7 @@ namespace BBT
             }
             
 
-            
-            
+         
         }
 
         public void ExportXml(Uri path, String xml)
@@ -774,6 +710,46 @@ namespace BBT
                 this.changeActiveNode(this, _mindmap.getMainNode());
             }
             
+        }
+
+        /// <summary>
+        /// Icon Hinzufügen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddIcon_Click(object sender, RoutedEventArgs e)
+        {
+           
+            // Create OpenFileDialog
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            // Set filter for file extension and default file extension
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "Pictures (.png)|*.png";
+
+            // Display OpenFileDialog by calling ShowDialog method
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                //FileNameTextBox.Text = filename;
+
+
+                //Image finalImage = new Image();
+                
+                BitmapImage logo = new BitmapImage();
+                logo.BeginInit();
+                logo.UriSource = new Uri(filename);
+                logo.EndInit();
+                
+                this.IconImage.Source = logo;
+                this._currentMarkedNode.getStyle().setICon(logo);
+               
+            }
+        
         }
     }
 }
