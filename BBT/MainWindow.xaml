@@ -6,9 +6,9 @@
 
     <DockPanel LastChildFill="True" x:Name="DockPanel" >
         <Menu DockPanel.Dock="Top" x:Name="MenuBar" Panel.ZIndex="99">
-            <MenuItem Header="_Datei">
+            <MenuItem Header="_Datei" Click="MenuItem_Click_1">
                 <MenuItem Header="_Speichern" Click="MenuItem_Click" />
-                <MenuItem Header="_Laden"/>
+                <MenuItem Header="_Laden" Click="MenuItem_Click_2"/>
                 <Separator />
                 <MenuItem Header="_Beenden" Click="Exit_Click"/>
             </MenuItem>
