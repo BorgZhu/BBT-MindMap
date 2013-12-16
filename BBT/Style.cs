@@ -16,7 +16,7 @@ namespace BBT
     {
         Tuple<Color, bool> farbeFill;
         BitmapImage icon;
-        Color BackgroundColor=Color.FromArgb(255, 255, 255, 255);
+        Color BackgroundColor=Color.FromArgb(0, 255, 255, 255);
         bool isActive = false;
         int fontSize = 12;
 
