@@ -25,7 +25,7 @@
             <Button x:Name="removeNOde" Content="Knoten _Entfernen" Click="removeNOde_Click"/>
             <Separator />
             <Label Content="Knoten Text:"/>
-            <TextBox x:Name="nodeText" Height="23" TextWrapping="Wrap" Text="Hauptknoten" TextChanged="nodeText_TextChanged" />
+            <TextBox x:Name="nodeText" Height="100" TextWrapping="Wrap" Text="Hauptknoten" AcceptsReturn="True" TextChanged="nodeText_TextChanged"  UseLayoutRounding="False" />
             <Label Content="Schriftgrösse: 12px" x:Name="FontSizeLabel"/>
             <Slider x:Name="FontSlider" Value="12" Minimum="1" Maximum="48" TickFrequency="1" ValueChanged="Slider_ValueChanged"/>
             <Button x:Name="chooseColorButton" Content="_Farbe wählen" Click="ChooseColor_Click"/>

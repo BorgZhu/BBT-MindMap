@@ -131,7 +131,7 @@ namespace BBT
             XElement data =
                 new XElement("node",
                     new XElement("grundform",
-                        new XElement("positionX", "" + grundform.X),
+                        new XElement("positionX", grundform.X),
                         new XElement("positionY", grundform.Y),
                         new XElement("breite", grundform.Width),
                         new XElement("hoehe", grundform.Height)
