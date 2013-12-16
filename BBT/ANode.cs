@@ -118,11 +118,12 @@ namespace BBT
         /// </summary>
         /// <returns>die XML-Repräsentation vom aktuellen Knoten</returns>
         public abstract XElement toXML();
-        public abstract void fromXML(XElement XML);
+        
         /// <summary>
         /// erstellt einen Knoten von einer XML-Repräsentation
         /// </summary>
         /// <param name="XML">die XML-Repräsentation vom Knoten</param>
+        public abstract void fromXML(XElement XML);
 
         public delegate void changedNodeEventHandler(object sender, ANode node);
 
