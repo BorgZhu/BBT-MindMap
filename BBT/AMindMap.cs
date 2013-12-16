@@ -37,7 +37,7 @@ namespace BBT
         /// setter für das MainElement. Das MainElement hat ein paar Sonderrollen: kann nicht gelöscht werden
         /// </summary>
         /// <param name="node">Der Knoten, der als MainElement festgelegt werden soll</param>
-        public abstract void setMainNode(ANode node);
+        public abstract void setMainNode(ANode node, bool blub);
 
         /// <summary>
         /// mit dieser Methode kann man einen Knoten aus der Mindmap entfernen
@@ -97,11 +97,12 @@ namespace BBT
         /// </summary>
         /// <returns>Die Stringrepräsentation vom XML der der Mindmap</returns>
         public abstract XElement toXML();
-        public abstract void fromXML(XElement XML);
+        
         /// <summary>
         /// Diese Methode wird verwendet um aus dem XML der Mindmap wieder eine Mindmap zu erstellen
         /// </summary>
         /// <param name="Json">die Stringrepräsentation von dem XML der Mindmap.</param>
+        public abstract void fromXML(XElement XML);
 
         /// <summary>
         /// diese Methode kann verwendet werden um den Hauptknoten zu bekommen.

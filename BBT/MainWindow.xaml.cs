@@ -118,7 +118,7 @@ namespace BBT
                 node.setStyle(nodeStyle);
 
                 node.setParent(null);
-                this._mindmap.setMainNode(node);
+                this._mindmap.setMainNode(node,false);
                 node.getStyle().setActivated(true);
 
                 node.setText(this.nodeText.Text);
@@ -274,7 +274,7 @@ namespace BBT
             myBrush.Color = System.Windows.Media.Color.FromArgb(255, MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
 
             this.MindMapCanvas.Background = myBrush;
-            //this.Background = myBrush;
+            this.Background = myBrush;
         }
         Point click;
         Rect grundRechteck;
