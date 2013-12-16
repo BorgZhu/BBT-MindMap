@@ -17,6 +17,7 @@ namespace BBT
     using System.Windows.Controls;
 using System.Windows.Shapes;
     using System.Windows;
+    using System.Xml.Linq;
     class MindMap : AMindMap
     {
         protected class TreeElement
@@ -80,6 +81,20 @@ using System.Windows.Shapes;
                 foreach (TreeElement child in children)
                     child.node.invalidate();
             }
+
+            internal XElement toXML()
+            {
+                XElement node = this.node.toXML();
+                XElement childs = new XElement("childs");
+                foreach (TreeElement child in children)
+                {
+                    childs.Add(child.toXML());
+                }
+                node.Add(childs);
+                return node;
+            }
+
+
         }
 
         private TreeElement _nodeRegistry;
@@ -96,16 +111,18 @@ using System.Windows.Shapes;
             this._nodeRegistry = new TreeElement(this);
         }
 
-        public override void setMainNode(ANode node)
+        public override void setMainNode(ANode node, bool ignoreNotEmpty = false)
         {
             if (node == null)
                 throw new ENodeIsNull("der übergebene Knoten ist null!");
             if (node.getParent() != null)
                 throw new EInvalidMainNode("Es ist ein Parent gesetzt, dass ist im MainNode nicht erlaubt.");
-            if (this._nodeRegistry.node != null)
+            if ((this._nodeRegistry.node != null) && (!ignoreNotEmpty))
                 throw new EMindMapNotEmpty("Die MindMap ist nicht leer!");
             this._nodeRegistry.node = node;
             node.changeNodeEvent += node_changeNodeEvent;
+
+            this.onAddNode(this, node);
         }
 
         private Size _drawSize;
@@ -175,14 +192,33 @@ using System.Windows.Shapes;
             return this._nodeRegistry.node;
         }
 
-        public override string toJson()
+        public override XElement toXML()
         {
-            throw new NotImplementedException();
+            XElement blub = new XElement("mindmap");
+            blub.Add(this._nodeRegistry.toXML());
+            return blub;
         }
 
-        public override void fromJson(string Json)
+        public override void fromXML(XElement XML)
         {
-            throw new NotImplementedException();
+            this._nodeRegistry = new TreeElement(this);
+            XElement blub = XML;
+            ANode start = new Node();
+            start.fromXML(blub.Element("node"));
+            this.setMainNode(start);
+            addChildXMLNode(blub.Element("node"), start);
+        }
+
+        private void addChildXMLNode(XElement nodeXML, ANode parent)
+        {
+            foreach (XElement child in nodeXML.Element("childs").Elements("node"))
+            {
+                ANode node = new Node();
+                node.fromXML(child);
+                node.setParent(parent);
+                this.addNode(node);
+                addChildXMLNode(child, node);
+            }
         }
     }
 }

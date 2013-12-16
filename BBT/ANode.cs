@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace BBT
 {
@@ -116,12 +117,12 @@ namespace BBT
         /// gibt die XML-Repräsentation vom aktuellen Knoten zurück
         /// </summary>
         /// <returns>die XML-Repräsentation vom aktuellen Knoten</returns>
-        public abstract string toJson();
+        public abstract XElement toXML();
+        public abstract void fromXML(XElement XML);
         /// <summary>
         /// erstellt einen Knoten von einer XML-Repräsentation
         /// </summary>
         /// <param name="XML">die XML-Repräsentation vom Knoten</param>
-        public abstract void fromJson(string Json);
 
         public delegate void changedNodeEventHandler(object sender, ANode node);
 
