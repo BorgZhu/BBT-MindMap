@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace BBT
 {
@@ -36,8 +37,15 @@ namespace BBT
             this._mindmap = new MindMap();
             this._mindmap.removeNodeEvent += removeNodeEventHandler;
             this._mindmap.changeSizeEvent += _mindmap_changeSizeEvent;
+            this._mindmap.addNodeEvent += _mindmap_addNodeEvent;
             InitializeComponent();
             this.changeActiveNodeEvent += activeNodeChangedHandler;
+        }
+
+        void _mindmap_addNodeEvent(object sender, ANode node)
+        {
+            node.changeNodeEvent += this.handleNodeChanges;
+            node.invalidate();
         }
 
         void _mindmap_changeSizeEvent(object sender, Size newSize)
@@ -94,9 +102,6 @@ namespace BBT
             this.MindMapCanvas.Clip = null;
 
             ANode node = new Node();
-
-            
-            node.changeNodeEvent += this.handleNodeChanges;
             
             node.beginUpdate();
             try
@@ -117,11 +122,15 @@ namespace BBT
                 node.getStyle().setActivated(true);
 
                 node.setText(this.nodeText.Text);
+                
             }
             finally
             {
                 node.endUpdate();
+                
                 _currentMarkedNode = node;
+                //_currentMarkedNode.fromXML(_currentMarkedNode.toXML());
+                //Console.Write(_mindmap.toXML().ToString());
             }
 
         }
@@ -426,7 +435,6 @@ namespace BBT
         private void addNode_Click(object sender, RoutedEventArgs e)
         {
             ANode node = new Node();
-            node.changeNodeEvent += this.handleNodeChanges;
             node.beginUpdate();
             try
             {
@@ -567,6 +575,7 @@ namespace BBT
                     _currentMarkedNode.endUpdate();
                 }
             }
+            
         }
 
         private void removeNOde_Click(object sender, RoutedEventArgs e)
@@ -578,38 +587,6 @@ namespace BBT
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // Create OpenFileDialog
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            // Set filter for file extension and default file extension
-            dlg.DefaultExt = ".png";
-            dlg.Filter = "Pictures (.png)|*.png";
-
-            // Display OpenFileDialog by calling ShowDialog method
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox
-            if (result == true)
-            {
-                // Open document
-                string filename = dlg.FileName;
-                //FileNameTextBox.Text = filename;
-
-
-                //Image finalImage = new Image();
-                
-                BitmapImage logo = new BitmapImage();
-                logo.BeginInit();
-                logo.UriSource = new Uri(filename);
-                logo.EndInit();
-                
-                this.IconImage.Source = logo;
-                this._currentMarkedNode.getStyle().setICon(logo);
-               
-            }
-        }
 
         /// <summary>
         /// Add Icon
@@ -688,24 +665,39 @@ namespace BBT
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = "Mindmap"; // Default file name
             dlg.DefaultExt = ".png"; // Default file extension
-            
-            dlg.Filter = "Picture documents (.png)|*.png"; // Filter files by extension
-            
+
+             dlg.Filter = "Picture documents (.png)|*.png|Xml Document(.xml)|*.xml"; // Filter files by extension
+
 
             // Show save file dialog box
             Nullable<bool> result = dlg.ShowDialog();
+             //Process save file dialog box results
 
-            // Process save file dialog box results
             if (result == true)
             {
                 // Save document
                 string filename = dlg.FileName;
                 Uri path = new Uri(filename);
-                ExportToPng(path, this.MindMapCanvas);
+                if (dlg.FileName.Contains(".xml"))
+                    ExportXml(path, _mindmap.toXML().ToString());
+                else
+                    ExportToPng(path, this.MindMapCanvas);
             }
+            
 
             
             
+        }
+
+        public void ExportXml(Uri path, String xml)
+        {
+            FileStream outStream = new FileStream(path.LocalPath, FileMode.Create);
+            byte[] penis = System.Text.Encoding.UTF8.GetBytes(xml);
+            outStream.Write(penis,0, penis.Length);
+            outStream.Close();
+            
+
+                
         }
 
         /// <summary>
@@ -754,5 +746,34 @@ namespace BBT
             surface.LayoutTransform = transform;
         }
 
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "Mindmap"; // Default file name
+                dlg.DefaultExt = ".xml"; // Default file extension
+
+             dlg.Filter = "Xml Document(.xml)|*.xml"; // Filter files by extension
+
+
+            // Show save file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+             //Process save file dialog box results
+
+            if (result == true)
+            {
+                this._currentMarkedNode = null;
+                this._nodeRegistry.Clear();
+                this.MindMapCanvas.Children.Clear();
+                FileStream input = new FileStream(dlg.FileName, FileMode.Open);
+                byte[] xxx = new byte[input.Length];
+                input.Read(xxx, 0, (int)input.Length);
+                string xml = System.Text.Encoding.UTF8.GetString(xxx);
+                input.Close();
+                XElement hgsfg = XElement.Parse(xml);
+                _mindmap.fromXML(hgsfg);
+                this.changeActiveNode(this, _mindmap.getMainNode());
+            }
+            
+        }
     }
 }
