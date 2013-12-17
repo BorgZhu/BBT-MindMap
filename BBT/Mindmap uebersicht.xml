@@ -1,0 +1,367 @@
+<mindmap>
+  <node>
+    <X>486</X>
+    <Y>317.52</Y>
+    <width>167</width>
+    <height>87</height>
+    <stil>BBT.Style</stil>
+    <text>BBT Mindmap</text>
+    <form>Ellipse</form>
+    <style>
+      <farbe>#FF0080FF</farbe>
+      <fill>true</fill>
+      <font>21</font>
+      <icon />
+    </style>
+    <childs>
+      <node>
+        <X>627</X>
+        <Y>225.00000000000003</Y>
+        <width>145</width>
+        <height>57</height>
+        <stil>BBT.Style</stil>
+        <text>Werkzeugkasten</text>
+        <form>Rechteck</form>
+        <style>
+          <farbe>#FF8080C0</farbe>
+          <fill>true</fill>
+          <font>17</font>
+          <icon />
+        </style>
+        <childs>
+          <node>
+            <X>585</X>
+            <Y>84.999999999999972</Y>
+            <width>103</width>
+            <height>60</height>
+            <stil>BBT.Style</stil>
+            <text>Text editieren</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF8080C0</farbe>
+              <fill>false</fill>
+              <font>13</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+          <node>
+            <X>714</X>
+            <Y>84</Y>
+            <width>115</width>
+            <height>74</height>
+            <stil>BBT.Style</stil>
+            <text>Neuer Knoten
+hinzufügen</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF8080C0</farbe>
+              <fill>false</fill>
+              <font>13</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+          <node>
+            <X>717</X>
+            <Y>317</Y>
+            <width>114</width>
+            <height>58</height>
+            <stil>BBT.Style</stil>
+            <text>Style</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF8080C0</farbe>
+              <fill>false</fill>
+              <font>14</font>
+              <icon />
+            </style>
+            <childs>
+              <node>
+                <X>600</X>
+                <Y>459.00000000000006</Y>
+                <width>99</width>
+                <height>63</height>
+                <stil>BBT.Style</stil>
+                <text>Icon</text>
+                <form>Ellipse</form>
+                <style>
+                  <farbe>#FF8080C0</farbe>
+                  <fill>false</fill>
+                  <font>12</font>
+                  <icon />
+                </style>
+                <childs>
+                  <node>
+                    <X>508</X>
+                    <Y>538</Y>
+                    <width>106</width>
+                    <height>64</height>
+                    <stil>BBT.Style</stil>
+                    <text></text>
+                    <form>Ellipse</form>
+                    <style>
+                      <farbe>#FF8080C0</farbe>
+                      <fill>false</fill>
+                      <font>12</font>
+                      <icon />
+                    </style>
+                    <childs />
+                  </node>
+                  <node>
+                    <X>667</X>
+                    <Y>566</Y>
+                    <width>117</width>
+                    <height>65</height>
+                    <stil>BBT.Style</stil>
+                    <text>Icon 
+und
+Text</text>
+                    <form>Ellipse</form>
+                    <style>
+                      <farbe>#FF8080C0</farbe>
+                      <fill>false</fill>
+                      <font>12</font>
+                      <icon />
+                    </style>
+                    <childs />
+                  </node>
+                </childs>
+              </node>
+              <node>
+                <X>723</X>
+                <Y>480.00000000000006</Y>
+                <width>85</width>
+                <height>52</height>
+                <stil>BBT.Style</stil>
+                <text>Farbe</text>
+                <form>Ellipse</form>
+                <style>
+                  <farbe>#FF8080C0</farbe>
+                  <fill>false</fill>
+                  <font>12</font>
+                  <icon />
+                </style>
+                <childs />
+              </node>
+              <node>
+                <X>798</X>
+                <Y>413</Y>
+                <width>114</width>
+                <height>58</height>
+                <stil>BBT.Style</stil>
+                <text>Schriftgrösse</text>
+                <form>Ellipse</form>
+                <style>
+                  <farbe>#FF8080C0</farbe>
+                  <fill>false</fill>
+                  <font>12</font>
+                  <icon />
+                </style>
+                <childs />
+              </node>
+              <node>
+                <X>890</X>
+                <Y>336</Y>
+                <width>114</width>
+                <height>58</height>
+                <stil>BBT.Style</stil>
+                <text>Form</text>
+                <form>Ellipse</form>
+                <style>
+                  <farbe>#FF6F6FFF</farbe>
+                  <fill>false</fill>
+                  <font>12</font>
+                  <icon />
+                </style>
+                <childs>
+                  <node>
+                    <X>1052</X>
+                    <Y>263</Y>
+                    <width>71</width>
+                    <height>63</height>
+                    <stil>BBT.Style</stil>
+                    <text>Kreis</text>
+                    <form>Ellipse</form>
+                    <style>
+                      <farbe>#FF6F6FFF</farbe>
+                      <fill>false</fill>
+                      <font>12</font>
+                      <icon />
+                    </style>
+                    <childs />
+                  </node>
+                  <node>
+                    <X>1043</X>
+                    <Y>377</Y>
+                    <width>71</width>
+                    <height>70</height>
+                    <stil>BBT.Style</stil>
+                    <text>Viereck</text>
+                    <form>Rechteck</form>
+                    <style>
+                      <farbe>#FF6F6FFF</farbe>
+                      <fill>false</fill>
+                      <font>12</font>
+                      <icon />
+                    </style>
+                    <childs />
+                  </node>
+                </childs>
+              </node>
+            </childs>
+          </node>
+          <node>
+            <X>796</X>
+            <Y>209.00000000000003</Y>
+            <width>145</width>
+            <height>56.999999999999972</height>
+            <stil>BBT.Style</stil>
+            <text>Knoten
+entfernen</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF8080C0</farbe>
+              <fill>false</fill>
+              <font>13</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+        </childs>
+      </node>
+      <node>
+        <X>362</X>
+        <Y>199.04</Y>
+        <width>121</width>
+        <height>57</height>
+        <stil>BBT.Style</stil>
+        <text>MouseEvents</text>
+        <form>Rechteck</form>
+        <style>
+          <farbe>#FF008000</farbe>
+          <fill>true</fill>
+          <font>17</font>
+          <icon />
+        </style>
+        <childs>
+          <node>
+            <X>236</X>
+            <Y>78.519999999999982</Y>
+            <width>121</width>
+            <height>71</height>
+            <stil>BBT.Style</stil>
+            <text>Knoten bewegen</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF008000</farbe>
+              <fill>false</fill>
+              <font>12</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+          <node>
+            <X>150</X>
+            <Y>174.51999999999995</Y>
+            <width>97</width>
+            <height>77</height>
+            <stil>BBT.Style</stil>
+            <text>Knotengrösse
+ändern</text>
+            <form>Rechteck</form>
+            <style>
+              <farbe>#FF008000</farbe>
+              <fill>false</fill>
+              <font>12</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+        </childs>
+      </node>
+      <node>
+        <X>316</X>
+        <Y>335.52</Y>
+        <width>106</width>
+        <height>62</height>
+        <stil>BBT.Style</stil>
+        <text>Export</text>
+        <form>Rechteck</form>
+        <style>
+          <farbe>#FF804000</farbe>
+          <fill>true</fill>
+          <font>15</font>
+          <icon />
+        </style>
+        <childs>
+          <node>
+            <X>168</X>
+            <Y>464.51999999999992</Y>
+            <width>106</width>
+            <height>62</height>
+            <stil>BBT.Style</stil>
+            <text>PNG</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF804000</farbe>
+              <fill>false</fill>
+              <font>12</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+          <node>
+            <X>123</X>
+            <Y>345.52</Y>
+            <width>106</width>
+            <height>62</height>
+            <stil>BBT.Style</stil>
+            <text>XML</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF804000</farbe>
+              <fill>false</fill>
+              <font>12</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+        </childs>
+      </node>
+      <node>
+        <X>441</X>
+        <Y>441.52</Y>
+        <width>100</width>
+        <height>66</height>
+        <stil>BBT.Style</stil>
+        <text>Import</text>
+        <form>Rechteck</form>
+        <style>
+          <farbe>#FF808040</farbe>
+          <fill>true</fill>
+          <font>16</font>
+          <icon />
+        </style>
+        <childs>
+          <node>
+            <X>345</X>
+            <Y>562.52</Y>
+            <width>100</width>
+            <height>66</height>
+            <stil>BBT.Style</stil>
+            <text>XML</text>
+            <form>Ellipse</form>
+            <style>
+              <farbe>#FF808040</farbe>
+              <fill>false</fill>
+              <font>12</font>
+              <icon />
+            </style>
+            <childs />
+          </node>
+        </childs>
+      </node>
+    </childs>
+  </node>
+</mindmap>
