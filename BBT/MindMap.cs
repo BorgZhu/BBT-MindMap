@@ -9,29 +9,216 @@ namespace BBT
     using EDuplicateNode = Exception;
     using ENodeNotExist = Exception;
     using ENodeNotDeleted = Exception;
+    using EInvalidTreeElement = Exception;
+    using EInvalidMainNode = Exception;
+    using EMindMapNotEmpty = Exception;
+    using ENodeIsNull = Exception;
+    using ETreeDeleteNotAllowed = Exception;
+    using System.Windows.Controls;
+using System.Windows.Shapes;
+    using System.Windows;
+    using System.Xml.Linq;
     class MindMap : AMindMap
     {
-        private List<ANode> _nodes;
+        protected class TreeElement
+        {
+            private AMindMap _mindmap = null;
+            public TreeElement parent = null;
+            public ANode node = null;
+            public List<TreeElement> children = null;
+            public TreeElement(AMindMap mindmap)
+            {
+                this._mindmap = mindmap;
+                this.children = new List<TreeElement>();
+            }
+
+            public TreeElement getAnyChild(ANode node)
+            {
+                if (this.node == null)
+                    throw new EInvalidTreeElement("der Knoten wurde in diesem Baumelement nicht gesetzt!");
+
+                foreach (TreeElement child in children)
+                {
+                    TreeElement result = null;
+                    if (child.node == node)
+                    {
+                        return child;
+                    }
+                    else if ((result = child.getAnyChild(node)) != null)
+                    {
+                        return result;
+                    }
+                }
+                return null;
+            }
+
+            public void addChild(ANode node)
+            {
+                TreeElement element = new TreeElement(this._mindmap);
+                element.node = node;
+                element.parent = this;
+                this.children.Add(element);
+            }
+
+            internal void delete(TreeElement knoten, bool recursive)
+            {
+                if ((knoten.children.Count > 0) && !recursive)
+                    throw new ETreeDeleteNotAllowed("Der Knoten, den du löschen wolltest hat noch Kinderknoten.");
+
+                if (recursive)
+                {
+                    for (int count = knoten.children.Count-1; count >= 0; count-- )
+                    {
+                        TreeElement child = knoten.children[count];
+                        this._mindmap.removeNode(child.node, true);
+                    }
+                }
+                this.children.Remove(knoten);
+            }
+
+            internal void invalidateChilds()
+            {
+                foreach (TreeElement child in children)
+                    child.node.invalidate();
+            }
+
+            internal XElement toXML()
+            {
+                XElement node = this.node.toXML();
+                XElement childs = new XElement("childs");
+                foreach (TreeElement child in children)
+                {
+                    childs.Add(child.toXML());
+                }
+                node.Add(childs);
+                return node;
+            }
+
+
+        }
+
+        private TreeElement _nodeRegistry;
+
+        protected TreeElement getNode(ANode node)
+        {
+            if (node == null)
+                throw new ENodeIsNull("der übergebene Knoten ist null!");
+            return this._nodeRegistry.getAnyChild(node);
+        }
+
         public MindMap()
         {
-            this._nodes = new List<ANode>();
+            this._nodeRegistry = new TreeElement(this);
+        }
+
+        public override void setMainNode(ANode node, bool ignoreNotEmpty = false)
+        {
+            if (node == null)
+                throw new ENodeIsNull("der übergebene Knoten ist null!");
+            if (node.getParent() != null)
+                throw new EInvalidMainNode("Es ist ein Parent gesetzt, dass ist im MainNode nicht erlaubt.");
+            if ((this._nodeRegistry.node != null) && (!ignoreNotEmpty))
+                throw new EMindMapNotEmpty("Die MindMap ist nicht leer!");
+            this._nodeRegistry.node = node;
+            node.changeNodeEvent += node_changeNodeEvent;
+
+            this.onAddNode(this, node);
+        }
+
+        private Size _drawSize;
+
+        public override void setDrawSize(Size newSize)
+        {
+            this._drawSize.Width = Math.Max(newSize.Width, this._drawSize.Width);
+            this._drawSize.Height = Math.Max(newSize.Height, this._drawSize.Height);
+            this.changeDrawSize(this, this._drawSize);
+        }
+
+        private void node_changeNodeEvent(object sender, ANode node)
+        {
+            if (this._nodeRegistry.node == node)
+                this._nodeRegistry.invalidateChilds();
+            else
+            {
+                TreeElement element = this._nodeRegistry.getAnyChild(node);
+                if (element != null)
+                    element.invalidateChilds();
+            }
+
+            this.setDrawSize(new Size(Math.Max(this._drawSize.Width, node.getRectangle().Right), 
+                Math.Max(this._drawSize.Height, node.getRectangle().Bottom)));
         }
 
         public override void addNode(ANode element)
         {
-            if (this._nodes.Contains(element))
+            if (element == null)
+                throw new ENodeIsNull("der übergebene Knoten ist null!");
+            if ((this._nodeRegistry.getAnyChild(element) != null) && (this._nodeRegistry.node != element))
                 throw new EDuplicateNode("Den Knoten, den du hinzufügen wolltest gibt es schon!");
-            this._nodes.Add(element);
+            TreeElement parent = this._nodeRegistry.getAnyChild(element.getParent());
+            if ((parent == null) && (this._nodeRegistry.node != element.getParent()))
+                throw new ENodeNotExist("Der Elternknoten existiert im Baum nicht.");
+
+            if (parent == null)
+                parent = this._nodeRegistry;
+
+            parent.addChild(element);
+            element.changeNodeEvent += node_changeNodeEvent;
+
             this.onAddNode(this, element);
         }
 
-        public override void removeNode(ANode element)
+        public override void removeNode(ANode element, bool recursive = false)
         {
-            if (!this._nodes.Contains(element))
-                throw new ENodeNotExist("Den Knoten, den du löschen wolltes, gibt es nicht.");
-            if (!this._nodes.Remove(element))
-                throw new ENodeNotDeleted("Der Knoten konnte nicht gelöscht werden!");
+            if (element == null)
+                throw new ENodeIsNull("der übergebene Knoten ist null!");
+            TreeElement knoten = this._nodeRegistry.getAnyChild(element);
+            if ((knoten == null) || (this._nodeRegistry.node == element))
+                throw new ENodeNotExist("Den Knoten, den du löschen wolltes, gibt es nicht oder ist der Hauptknoten.");
+
+            TreeElement parent = knoten.parent;
+            parent.delete(knoten, recursive);
+
             this.onRemoveNode(this, element);
+        }
+
+        public override Size getDrawSize()
+        {
+            return this._drawSize;
+        }
+
+        public override ANode getMainNode()
+        {
+            return this._nodeRegistry.node;
+        }
+
+        public override XElement toXML()
+        {
+            XElement blub = new XElement("mindmap");
+            blub.Add(this._nodeRegistry.toXML());
+            return blub;
+        }
+
+        public override void fromXML(XElement XML)
+        {
+            this._nodeRegistry = new TreeElement(this);
+            XElement blub = XML;
+            ANode start = new Node();
+            start.fromXML(blub.Element("node"));
+            this.setMainNode(start);
+            addChildXMLNode(blub.Element("node"), start);
+        }
+
+        private void addChildXMLNode(XElement nodeXML, ANode parent)
+        {
+            foreach (XElement child in nodeXML.Element("childs").Elements("node"))
+            {
+                ANode node = new Node();
+                node.fromXML(child);
+                node.setParent(parent);
+                this.addNode(node);
+                addChildXMLNode(child, node);
+            }
         }
     }
 }
